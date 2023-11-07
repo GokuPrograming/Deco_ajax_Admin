@@ -1,0 +1,32 @@
+
+
+.carrito-container {
+    position: relative;
+    display: inline-block;
+}
+
+#contador-value {
+    position: absolute;
+    top: -5px; /* Ajusta la posición vertical según tus necesidades */
+    right: -5px; /* Ajusta la posición horizontal según tus necesidades */
+    background-color: red;
+    color: white;
+    border-radius: 50%; /* Hace que el fondo sea circular */
+    padding: 1px 1px; /* Espaciado del fondo */
+    font-size: 14px; /* Tamaño de la fuente del número */
+    font-weight: bold; /* Texto en negrita */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5); /* Sombra */
+    transition: transform 0.2s ease-in-out; /* Transición suave al cambiar la transformación */
+
+    &:hover {
+        transform: scale(1.1); /* Escala el número cuando el cursor está encima */
+    }
+}
+ul.em_alta {
+    list-style: none; /* Quita las viñetas a la lista */
+}
+
+/* Estilo para los elementos de la lista si es necesario */
+ul.em_alta li {
+    /* Estilos específicos para los elementos de la lista si es necesario */
+}

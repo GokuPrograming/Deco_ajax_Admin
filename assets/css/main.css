@@ -1,0 +1,212 @@
+@media (max-width: 576px) {
+    .img {
+        width: 42vw;
+        height: 42vw;
+    }
+
+    .cat-origen,
+    .nombre-pro {
+        width: 42vw;
+    }
+}
+
+/*Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) and (max-width: 768px) {
+    .img {
+        width: 30vw;
+        height: 30vw;
+        min-width: 200px;
+        min-height: 200px;
+    }
+
+    .cat-origen,
+    .nombre-pro {
+        width: 30vw;
+        min-width: 200px;
+    }
+}
+
+.curso-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 columnas */
+    gap: 10px;
+    /* Espacio entre elementos */
+}
+
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) and (max-width: 992px) {
+    .img {
+        width: 200px;
+        height: 200px;
+    }
+
+    .cat-origen,
+    .nombre-pro {
+        width: 200px;
+    }
+}
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) and (max-width: 1200px) {
+    .img {
+        width: 210px;
+        height: 210px;
+    }
+
+    .cat-origen,
+    .nombre-pro {
+        width: 210px;
+    }
+}
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+    .img {
+        width: 230px;
+        height: 230px;
+    }
+
+    .cat-origen,
+    .nombre-pro {
+        width: 230px;
+    }
+}
+
+.img {
+    /*box-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.24);
+	*/
+    object-fit: cover;
+    object-position: 50% 50%;
+}
+
+.padre {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.link-tarjeta {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+.link-tarjeta:hover {
+    color: inherit;
+}
+
+/*Estilos titulo tarjeta categoria, se limita tamaño y caracteres*/
+.nombre-cat {
+    text-align: center;
+    font-size: clamp(10px, 6vw, 29px) !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 0px;
+}
+
+.cat-origen {
+    margin: 0px !important;
+    font-size: 18px;
+    color: green;
+    text-align: left;
+}
+
+.nombre-pro {
+    text-align: left;
+    font-size: clamp(15px, 4vw, 20px) !important;
+    white-space: normal;
+    margin-bottom: 0px;
+}
+
+.opacity {
+    box-shadow: none;
+    position: absolute;
+    -webkit-transition: opacity .5s ease;
+    -moz-transition: opacity .5s ease;
+    -ms-transition: opacity .5s ease;
+    -o-transition: opacity .5s ease;
+    transition: opacity .5s ease;
+}
+
+.opacity:hover {
+    opacity: 0;
+}
+
+.navbar-default {
+    background-color: white;
+}
+
+.cont-logo {
+    position: absolute;
+}
+
+.cont-logo img {
+    width: 40px;
+}
+
+.cont-carrito {
+    text-decoration: none;
+    color: inherit;
+}
+
+.cont-carrito i {
+    font-size: 1.8rem;
+}
+
+.contador {
+    font-size: 12px;
+}
+
+
+
+a.Comprar {
+    display: inline-block;
+    text-align: center;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    /* Color verde */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+a.Comprar:hover {
+    background-color: #45a049;
+    /* Cambia el color al pasar el cursor */
+}
+
+.quitar {
+    display: inline-block;
+    text-align: center;
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.quitar:hover {
+    background-color: #c0392b;
+}
+
+.separador {
+    margin-top: 10px;
+}
+
+/* Agregar a tu archivo CSS */
+.curso-card {
+    transition: transform 0.3s;
+    /* Transición para el efecto hover */
+}
+
+.curso-card:hover {
+    transform: scale(1.05);
+    /* Zoom en 3D al pasar el cursor por encima */
+}

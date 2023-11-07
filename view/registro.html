@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <!--capcha-->
+
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- jQuery UI (selecciona un tema que te guste) -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <link rel="stylesheet" href="../assets/CSS/login.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="wrapper fadeInDown">
+        <div id="">
+            <!-- Tabs Titles -->
+            <!-- Icon -->
+            <div class="fadeIn first">
+                <img src="../assets/img/fondo.jpeg " id="icon" alt="User Icon " class="imagen-redondeada" />
+                <h1>Crear Cuenta Nueva</h1>
+            </div>
+            <div id="error">hola</div>
+            <!-- Login Form -->
+            <form method="post" id="forming">
+                <input type="text" id="" class="fadeIn second" name="nombre" placeholder="Nombre" required>
+                <input type="text" id="" class="fadeIn second" name="primer_apellido" placeholder="Apellido Paterno"
+                    required>
+                <input type="text" id="" class="fadeIn second" name="segundo_apellido" placeholder="Apellido Materno"
+                    required>
+                <input type="text" id="fecha-nacimiento" class="fadeIn third" name="fecha_nacimiento"
+                    placeholder="Fecha de Nacimiento" required>
+                <input type="text" id="" class="fadeIn third" name="correo" placeholder="Correo Electrónico" required>
+                <input type="password" id="" class="fadeIn third" name="password" placeholder="Contraseña" required>
+
+                <div class="g-recaptcha" data-sitekey="6LfXi_8oAAAAAGeCsTaetGmZa-52MYSjUG9Y7km2"></div>
+                <input type="submit" class="fadeIn fourth" value="Registrarse" required>
+            </form>
+
+            <!-- Remind Password -->
+            <div id="formFooter">
+                <a class="underlineHover" href="../index.html">Go to the Site</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../js/registro.js"></script>
+    <script>
+        jQuery(function () {
+            jQuery("#fecha-nacimiento").datepicker({
+                dateFormat: "yy-mm-dd", // Formato de fecha "YYYY-MM-DD"
+                changeYear: true, // Permite cambiar el año
+                changeMonth: true, // Permite cambiar el mes
+                yearRange: "1900:2023" // Rango de años permitidos
+            });
+        });
+    </script>
+</body>
+
+</html>
