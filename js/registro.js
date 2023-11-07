@@ -9,7 +9,7 @@ jQuery(document).on('submit', '#forming', function (event) {
         console.log('Por favor, complete el captcha.');
         return;
     }
-    console.log('se completo captcha');
+
     // Continúa con el envío del formulario si el captcha se completó
     jQuery.ajax({
         url: '../controller/ctrlRegistrar.php',
@@ -17,29 +17,39 @@ jQuery(document).on('submit', '#forming', function (event) {
         dataType: 'json',
         data: jQuery(this).serialize(),
         beforeSend: function () {
-            jQuery('.botonlg').val('Validando...');
+            // jQuery('.botonlg').val('Validando...');
         }
     })
         .done(function (respuesta) {
             if (respuesta.success) {
-                jQuery('#error').slideDown('slow'); // Debes usar jQuery en lugar de $
+                // Actualiza el contenido del div con el mensaje de respuesta
+                jQuery('#error').html(respuesta.message);
+                jQuery('#error').slideDown('slow');
                 setTimeout(function () {
-                    jQuery('#error').slideUp('slow'); // Debes usar jQuery en lugar de $
+                    jQuery('#error').slideUp('slow');
                 }, 3000);
-                jQuery('.botonlg').val('Iniciar sesión'); // Debes usar jQuery en lugar de $
-                console.log(respuesta.message);
+
+                window.location.href = '../controller/Admin/ctrlAdmin.php';
 
                 // Puedes realizar acciones adicionales, como redirigir o mostrar un mensaje de éxito
             } else {
+                jQuery('#error').html(respuesta.message);
+                //alert(respuesta.message);
+                jQuery('#error').slideDown('slow');
+                setTimeout(function () {
+                    jQuery('#error').slideUp('slow');
+                }, 3000);
                 console.log('Error: ' + respuesta.message);
+                grecaptcha.reset();
                 // Puedes mostrar un mensaje de error
             }
         })
+
         .fail(function (resp) {
             console.log(resp.responseText);
         })
         .always(function () {
             console.log('Complete');
-        });
 
+        });
 });

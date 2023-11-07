@@ -33,10 +33,11 @@ if ($recaptchaData->success) {
             return; // No continuar si el correo ya existe
         }
        */
-        if ($user->validarCorreo($correo) > 0) {
+        $numeroCorreo = $user->validarCorreo($correo);
+        if ($numeroCorreo > 0) {
             $response = array(
-                'success' => true, // Puedes agregar más información si es necesario
-                'message' => 'Registro fallido por emailDupolicado'
+                'success' => false,
+                'message' => 'Error: El correo ya está registrado.'
             );
             // Envía la respuesta como JSON
             header('Content-Type: application/json');
@@ -44,13 +45,16 @@ if ($recaptchaData->success) {
         } else {
             $user->crearUsuarioYCliente($nombre, $primer_apellido, $segundo_apellido, $fecha_nacimiento, $correo, $password);
             $response = array(
-                'success' => true, // Puedes agregar más información si es necesario
-                'message' => 'Registro exitoso' . $nombre . '' . $primer_apellido . $segundo_apellido . $fecha_nacimiento . $correo . $password
+                'success' => true,
+                'message' => 'Registro exitoso'
             );
             // Envía la respuesta como JSON
-            header('Content-Type: application/json');
+           header('Content-Type: application/json');
             echo json_encode($response);
+           // header("Location: Admin/ctrlAdmin.php");
+
         }
+
         // Luego, prepara una respuesta en formato JSON
     } else {
         $response = array('success' => false);

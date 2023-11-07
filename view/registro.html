@@ -31,18 +31,22 @@
                 <img src="../assets/img/fondo.jpeg " id="icon" alt="User Icon " class="imagen-redondeada" />
                 <h1>Crear Cuenta Nueva</h1>
             </div>
-            <div id="error">hola</div>
+
+            <span id="error" style="display: none;">valores no validos</span>
+            <div id="error"></div>
+
+
             <!-- Login Form -->
             <form method="post" id="forming">
-                <input type="text" id="" class="fadeIn second" name="nombre" placeholder="Nombre" required>
-                <input type="text" id="" class="fadeIn second" name="primer_apellido" placeholder="Apellido Paterno"
+                <input type="text" id="a" class="fadeIn second" name="nombre" placeholder="Nombre" required>
+                <input type="text" id="b" class="fadeIn second" name="primer_apellido" placeholder="Apellido Paterno"
                     required>
-                <input type="text" id="" class="fadeIn second" name="segundo_apellido" placeholder="Apellido Materno"
+                <input type="text" id="c" class="fadeIn second" name="segundo_apellido" placeholder="Apellido Materno"
                     required>
                 <input type="text" id="fecha-nacimiento" class="fadeIn third" name="fecha_nacimiento"
                     placeholder="Fecha de Nacimiento" required>
-                <input type="text" id="" class="fadeIn third" name="correo" placeholder="Correo Electrónico" required>
-                <input type="password" id="" class="fadeIn third" name="password" placeholder="Contraseña" required>
+                <input type="text" id="d" class="fadeIn third" name="correo" placeholder="Correo Electrónico" required>
+                <input type="password" id="e" class="fadeIn third" name="password" placeholder="Contraseña" required>
 
                 <div class="g-recaptcha" data-sitekey="6LfXi_8oAAAAAGeCsTaetGmZa-52MYSjUG9Y7km2"></div>
                 <input type="submit" class="fadeIn fourth" value="Registrarse" required>
@@ -55,6 +59,7 @@
 
         </div>
     </div>
+
 
     <script src="../js/registro.js"></script>
     <script>

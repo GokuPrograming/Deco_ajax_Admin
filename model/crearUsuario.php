@@ -72,7 +72,7 @@ class crearUsuario
     {
         $query = "SELECT count(correo)  from usuario WHERE correo= :correo";
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':correo', $correoco, PDO::PARAM_STR);
+        $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
         $stmt->execute();
         $existeCompra = $stmt->fetchColumn();
         return $existeCompra;
