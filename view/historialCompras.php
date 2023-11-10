@@ -30,7 +30,7 @@
                 url: "../controller/user/ctrlUser.php?opc=9",
                 data: {},
                 success: function(data) {
-                    $('#').html(data); // Actualiza la tabla del carrito
+                    $('#compra').html(data); // Actualiza la tabla del carrito
                 },
             });
         }

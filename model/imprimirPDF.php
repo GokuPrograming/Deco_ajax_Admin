@@ -2,35 +2,82 @@
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
-require_once("../../vendor/autoload.php");
+use Dompdf\Autoloader;
+
+require_once "../../vendor/autoload.php";
+require_once '../../model/historialCompra.php';
+
+
+
 class imprimirPDF
 {
+
     private $db;
     public function __construct()
     {
         $con = new Conexion();
         $this->db = $con->conectar();
     }
-    public function crearPDF($idUser, $id_venta,$nombre)
+    public function crearPDF($user,$fecha)
     {
+
+        $mostrarVenta = new historialCompras();
+
+        $venta = $mostrarVenta->MostrarICompras($user,$fecha);
         $dompdf = new Dompdf();
         $html = '
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
-        <h1>HOLA MUNDO fffffff</h1>
-        y yo que dsada
-        <p>Usuario ID: ' . $idUser . '</p>
-<p>id Venta: ' . $id_venta . '</p>
-<p>nombre: ' . $nombre . '</p>
-    </body>
-    </html>
-    ';
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1 {
+            color: #009688;
+            text-align: center;
+        }
+
+        p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Estilos adicionales según tus preferencias */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Reporte De compras</h1>
+        ';
+        foreach ($venta as $curso) {
+            $html .= '
+            <p>Usuario ID: ' . $curso['nombre'] . '</p>
+            <p>id Venta: ' . $curso['fecha'] . '</p>
+            <p>nombre: ' . $curso['id_venta'] . '</p>';
+        }
+
+        $html .= '
+        </body>
+        </html>';
 
         $dompdf->loadHtml($html);
         $dompdf->render();

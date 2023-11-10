@@ -375,15 +375,15 @@ if (isset($_GET['opc'])) {
     </footer>
     
     ';
-        case '9'://imprimir pdf
-            $id_venta = isset($_GET['id_venta']) ? $_GET['id_venta'] : null;
-            $venta = $mostrarVenta->MostrarCompras($_SESSION["id_usuario"]);
-            foreach ($venta as $curso) {
-                $curso['nombre'];
-            }
-            $imprimir->crearPDF($_SESSION["id_usuario"], $_GET['id_venta'],  $curso['nombre']);
+        case '9': //imprimir pdf
+            $id_venta = isset($_GET['id_venta']) && isset($_GET['fecha']);
+            $id_venta = $_GET['id_venta'];
+            $fecha = $_GET['fecha'];
+           echo $fecha."  ".$_SESSION["id_usuario"]." ".$id_venta;
 
-            break;
+           $imprimir->crearPDF($_SESSION["id_usuario"],$fecha);
+
+           break;
 
         case '10':
             if (isset($_SESSION["id_usuario"])) {
@@ -396,7 +396,7 @@ if (isset($_GET['opc'])) {
                         <p class="cat-origen pb-1">compra del dia=' . $curso['fecha'] . '</p>
                         <p class="cat-origen pb-1">idventa=' . $curso['id_venta'] . '</p>
                         <input type="button" class="btn btn-danger" value="imprimir" onclick="imprimir()">
-                        <a href="../controller/user/ctrlUser.php?opc=9&id_venta=' . $curso['id_venta'] . '" target="_blank">aaaaa</a>
+                        <a href="../controller/user/ctrlUser.php?opc=9&id_venta=' . $curso['id_venta'] . '&fecha=' . $curso['fecha'] . '" target="_blank">aaaaa</a>
                         
                    </div>';
                 }
