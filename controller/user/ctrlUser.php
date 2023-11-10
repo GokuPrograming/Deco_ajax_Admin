@@ -1,21 +1,39 @@
 <?php
+
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Dompdf\Autoloader;
+
+require_once("../../vendor/autoload.php");
 require_once '../../model/model_cursos.php';
 require_once '../../model/conexion.php';
 require_once '../../model/carrito.php';
+require_once '../../model/historialCompra.php';
 require_once '../../adodb5/adodb.inc.php';
+require_once '../../model/imprimirPDF.php';
 $content = 'Este es el contenido del panel de usuario.';
 
+
+$options = new Options();
+$options->set('isHtml5ParserEnabled', true);
+$options->set('isPhpEnabled', true);
+
+$dompdf = new Dompdf($options);
 // Devuelve el contenido como respuesta
 //echo $content;
 
 $mostrar = new model_cursos();
+$mostrarVenta = new historialCompras();
 $carrito = new carrito();
+$imprimir = new imprimirPDF();
+
+
 //echo 'llego al controlador';
 if (isset($_GET['opc'])) {
     $opc = $_GET['opc'];
     //echo ($opc);
     switch ($opc) {
-        case 1:
+        case '1':
             if (isset($_SESSION["id_usuario"])) {
                 $cursos = $mostrar->mostrarTodosLosCursos();
                 echo '<div class="curso-grid">';
@@ -39,7 +57,7 @@ if (isset($_GET['opc'])) {
             break;
 
 
-        case 2: ///agregar producto a carrito
+        case '2': ///agregar producto a carrito
             if (isset($_POST['id_lista_cursos']) && isset($_SESSION["id_usuario"])) {
                 $id_lista_cursos = $_POST['id_lista_cursos'];
                 $idUser = $_SESSION["id_usuario"];
@@ -64,7 +82,7 @@ if (isset($_GET['opc'])) {
             break;
 
 
-        case 3: ///muestra los elementos en la pagina de carrito
+        case '3': ///muestra los elementos en la pagina de carrito
             if (isset($_SESSION["id_usuario"])) {
                 echo 'Sesión de usuario ID=' . $_SESSION["id_usuario"];
 
@@ -78,6 +96,7 @@ if (isset($_GET['opc'])) {
                     foreach ($cursosEnCarrito as $curso) {
 
                         echo '
+                      
                                 <table class="container1" id="mostrarCarro">
                                 <tr>
                                     <!--<td><img src="../assets/img/' . $curso['imagen'] . '" alt="' . $curso['titulo'] . '">
@@ -102,7 +121,7 @@ if (isset($_GET['opc'])) {
                 echo "El usuario no está definido";
             }
             break;
-        case 4: //elimina un elemento del carrito
+        case '4': //elimina un elemento del carrito
             if (isset($_SESSION["id_usuario"])) {
                 $carrito = new carrito();
                 $id_lista_cursos = $_POST['id_lista_cursos'];
@@ -112,7 +131,7 @@ if (isset($_GET['opc'])) {
                 echo "El usuario no está definido";
             }
             break;
-        case 5: ///comprarCArro
+        case '5': ///comprarCArro
             if (isset($_SESSION["id_usuario"])) {
                 $carrito = new Carrito(); // Asegúrate de que la clase Carrito esté definida
                 $idUser = $_SESSION["id_usuario"];
@@ -120,65 +139,120 @@ if (isset($_GET['opc'])) {
                 echo "compra exitosa";
                 break;
             }
-        case 6: //contador del carrito
+        case '6': //contador del carrito
             $contador = $carrito->carritosContador($_SESSION["id_usuario"]);
             echo '' . $contador;
             break;
 
-        case 7: ///trer la barra de navegacion
-            echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <img src="../assets/img/OIG.jpeg" alt="Logo" width="80" height="80" class="d-inline-block align-top imagen-redondeada">
-            <a class="navbar-brand" href="#"><img height="100" src="/HTML/Carpeta2/assets/imagenes/logo.png" alt=""></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#"><img src="../assets/img/work-from-home.png" alt="" height="30">
-                            Inicio <span class="sr-only">(current)</span></a>
-                    </li>
-
-                </ul>
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"> <img src="../assets/img/www.png" alt="" height="30"></button>
-                </form>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../html/p2.php"><img src="../assets/img/hombre.png" alt="" height="30"></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="SubirVideo.html"><img src="../assets/img/subir.png" alt="subir" height="30px"></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../html/configuracion.html"><img src="../assets/img/configuraciones.png" alt="" height="30"></a>
-                    </li>
-                    <li class="nav-item">
-
-                        <!-- <a class="nav-link" href="carrito.php" id="contador"><img src="../assets/img/work-from-home.png" alt=""
-                                height="30">
-                        </a>-->
-                        <a class="nav-link" href="carrito.php" id="contador">
-                            <div class="carrito-container">
-                                <img src="../assets/img/carrito-de-compras.png" alt="" height="30">
-                                <!--el contador value se usa mas que nada el value para obtener los valores del id que se llama contador-->
-                                <span id="contador-value"></span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="nav-item active">
-
-                        <a class="nav-link" href="../Controladores/ctrlCerrarSesion.php"><img src="../assets/img/flecha.png" alt="" height="30">
-                            cerraar sesion <span class="sr-only">(current)</span></a>
-                    </li>
-                </ul>
-            </div>
-        </nav>';
+        case '7':
+            if ($_SESSION['id_rol'] == 1) {
+                echo 'id_rol=' . $_SESSION['id_rol'];
+                echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <img src="../assets/img/OIG.jpeg" alt="Logo" width="80" height="80" class="d-inline-block align-top imagen-redondeada">
+                <a class="navbar-brand" href="#"><img height="100" src="/HTML/Carpeta2/assets/imagenes/logo.png" alt=""></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#"><img src="../assets/img/work-from-home.png" alt="" height="30">
+                                Inicio <span class="sr-only">(current)</span></a>
+                        </li>
+    
+                    </ul>
+                    <form class="form-inline">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"> <img src="../assets/img/www.png" alt="" height="30"></button>
+                    </form>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../view/adminPanel.php"><img src="../assets/img/hombre.png" alt="" height="30"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="SubirVideo.html"><img src="../assets/img/subir.png" alt="subir" height="30px"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../html/configuracion.html"><img src="../assets/img/configuraciones.png" alt="" height="30"></a>
+                        </li>
+                        <li class="nav-item">
+    
+                            <!-- <a class="nav-link" href="carrito.php" id="contador"><img src="../assets/img/work-from-home.png" alt=""
+                                    height="30">
+                            </a>-->
+                            <a class="nav-link" href="carrito.php" id="contador">
+                                <div class="carrito-container">
+                                    <img src="../assets/img/carrito-de-compras.png" alt="" height="30">
+                                    <!--el contador value se usa mas que nada el value para obtener los valores del id que se llama contador-->
+                                    <span id="contador-value"></span>
+                                </div>
+                            </a>
+                        </li>
+    
+                        <li class="nav-item active">
+    
+                            <a class="nav-link" href="../Controladores/ctrlCerrarSesion.php"><img src="../assets/img/flecha.png" alt="" height="30">
+                                cerraar sesion <span class="sr-only">(current)</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>';
+            } else if ($_SESSION['id_rol'] == 2) {
+                echo $_SESSION['id_rol']; ///trer la barra de navegacion
+                echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <img src="../assets/img/OIG.jpeg" alt="Logo" width="80" height="80" class="d-inline-block align-top imagen-redondeada">
+                <a class="navbar-brand" href="#"><img height="100" src="/HTML/Carpeta2/assets/imagenes/logo.png" alt=""></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#"><img src="../assets/img/work-from-home.png" alt="" height="30">
+                                Inicio <span class="sr-only">(current)</span></a>
+                        </li>
+    
+                    </ul>
+                    <form class="form-inline">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"> <img src="../assets/img/www.png" alt="" height="30"></button>
+                    </form>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../html/p2.php"><img src="../assets/img/hombre.png" alt="" height="30"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../view/historialCompras.php"><img src="../assets/img/subir.png" alt="subir" height="30px"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../html/configuracion.html"><img src="../assets/img/configuraciones.png" alt="" height="30"></a>
+                        </li>
+                        <li class="nav-item">
+    
+                            <!-- <a class="nav-link" href="carrito.php" id="contador"><img src="../assets/img/work-from-home.png" alt=""
+                                    height="30">
+                            </a>-->
+                            <a class="nav-link" href="carrito.php" id="contador">
+                                <div class="carrito-container">
+                                    <img src="../assets/img/carrito-de-compras.png" alt="" height="30">
+                                    <!--el contador value se usa mas que nada el value para obtener los valores del id que se llama contador-->
+                                    <span id="contador-value"></span>
+                                </div>
+                            </a>
+                        </li>
+    
+                        <li class="nav-item active">
+    
+                            <a class="nav-link" href="../Controladores/ctrlCerrarSesion.php"><img src="../assets/img/flecha.png" alt="" height="30">
+                                cerraar sesion <span class="sr-only">(current)</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>';
+            }
             break;
 
-        case 8: ///footer
+        case '8': ///footer
             echo '
     <footer class="footer-section">
         <div class="container">
@@ -301,5 +375,34 @@ if (isset($_GET['opc'])) {
     </footer>
     
     ';
+        case '9'://imprimir pdf
+            $id_venta = isset($_GET['id_venta']) ? $_GET['id_venta'] : null;
+            $venta = $mostrarVenta->MostrarCompras($_SESSION["id_usuario"]);
+            foreach ($venta as $curso) {
+                $curso['nombre'];
+            }
+            $imprimir->crearPDF($_SESSION["id_usuario"], $_GET['id_venta'],  $curso['nombre']);
+
+            break;
+
+        case '10':
+            if (isset($_SESSION["id_usuario"])) {
+                $venta = $mostrarVenta->MostrarCompras($_SESSION["id_usuario"]);
+                echo '<div class="curso-grid">';
+                foreach ($venta as $curso) {
+                    echo '
+                    <div class="curso-card">
+                        <p class="display-1 pt-2 nombre-pro">compra del usuario= ' . $curso['nombre'] . '</p>
+                        <p class="cat-origen pb-1">compra del dia=' . $curso['fecha'] . '</p>
+                        <p class="cat-origen pb-1">idventa=' . $curso['id_venta'] . '</p>
+                        <input type="button" class="btn btn-danger" value="imprimir" onclick="imprimir()">
+                        <a href="../controller/user/ctrlUser.php?opc=9&id_venta=' . $curso['id_venta'] . '" target="_blank">aaaaa</a>
+                        
+                   </div>';
+                }
+                echo '</div>';
+            } else {
+                echo "El usuario no está definido";
+            }
     }
 }

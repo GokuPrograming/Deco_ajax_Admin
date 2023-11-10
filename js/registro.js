@@ -5,8 +5,14 @@ jQuery(document).on('submit', '#forming', function (event) {
     var response = grecaptcha.getResponse();
 
     if (!response) {
+        response = 'completa el captcha';
         // El captcha no se completó
         console.log('Por favor, complete el captcha.');
+        jQuery('#error').html(response);
+        jQuery('#error').slideDown('slow');
+        setTimeout(function () {
+            jQuery('#error').slideUp('slow');
+        }, 3000);
         return;
     }
 
@@ -28,10 +34,13 @@ jQuery(document).on('submit', '#forming', function (event) {
                 setTimeout(function () {
                     jQuery('#error').slideUp('slow');
                 }, 3000);
+                $('#successModal').find('.modal-body').html(respuesta.message);
+                $('#successModal').modal('show');
+                setTimeout(function () {
+                    // Realiza otra acción aquí, por ejemplo, redirige a otra página
+                    window.location.href = '../index.html';
+                }, 3000);
 
-                window.location.href = '../controller/Admin/ctrlAdmin.php';
-
-                // Puedes realizar acciones adicionales, como redirigir o mostrar un mensaje de éxito
             } else {
                 jQuery('#error').html(respuesta.message);
                 //alert(respuesta.message);

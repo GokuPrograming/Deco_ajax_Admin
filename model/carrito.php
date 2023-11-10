@@ -120,6 +120,7 @@ class carrito
             if ($rs->execute()) {
                 // La compra se ha registrado correctamente en la base de datos
                 echo "¡Compra registrada en la base de datos!";
+                $this->insertarVenta($id_usuario, $cursoID);
                 // header("Location: ../html/compraConcluida.php");
                 // header("Location: ../html/main.php?comprado=1");
                 $this->eliminarCarrito($id_usuario);
@@ -129,6 +130,25 @@ class carrito
             }
         }
     }
+
+    public function insertarVenta($id_usuario, $cursoID)
+    {
+        $query = "INSERT INTO venta (id_usuario, id_lista_cursos, fecha) VALUES (:id_usuario, :id_curso, NOW())";
+        $rs = $this->db->prepare($query);
+        $rs->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        $rs->bindParam(':id_curso', $cursoID, PDO::PARAM_INT);
+
+        if ($rs->execute()) {
+            // La compra se ha registrado correctamente en la base de datos
+            echo "¡Compra registrada en la base de datos!";
+            // header("Location: ../html/compraConcluida.php");
+            // header("Location: ../html/main.php?comprado=1");
+        } else {
+            // Hubo un error al registrar la compra
+            echo "Error al registrar la compra.";
+        }
+    }
+
     public function eliminarCarrito($id_usuario)
     {
         // Luego, eliminar los cursos del carrito

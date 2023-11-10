@@ -24,6 +24,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Función para borrar un elemento del carrito
+      
 
         function borrarDeCarrito(id_lista_cursos) {
             $.ajax({

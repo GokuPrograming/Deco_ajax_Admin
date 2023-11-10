@@ -17,22 +17,9 @@ if ($recaptchaData->success) {
         $fecha_nacimiento = $_POST["fecha_nacimiento"];
         $correo = $_POST["correo"];
         $password = $_POST["password"];
-
         // Realiza las operaciones necesarias con los datos, por ejemplo, insertar en la base de datos
         $user = new crearUsuario();
-        //                      correo, $password, $nombre, $primer_apellido, $segundo_apellido, $fecha_nacimiento
-        /*
-       
-        if ($this->validarCorreo($correo) > 0) {
-            $response = array(
-                'success' => false,
-                'message' => 'Error: El correo ya está registrado.'
-            );
-            header('Content-Type: application/json');
-            echo json_encode($response);
-            return; // No continuar si el correo ya existe
-        }
-       */
+        //validacion de correo
         $numeroCorreo = $user->validarCorreo($correo);
         if ($numeroCorreo > 0) {
             $response = array(
@@ -49,15 +36,16 @@ if ($recaptchaData->success) {
                 'message' => 'Registro exitoso'
             );
             // Envía la respuesta como JSON
-           header('Content-Type: application/json');
+            header('Content-Type: application/json');
             echo json_encode($response);
-           // header("Location: Admin/ctrlAdmin.php");
-
+            // header("Location: Admin/ctrlAdmin.php");
         }
 
         // Luego, prepara una respuesta en formato JSON
     } else {
-        $response = array('success' => false);
+        $response = array(
+            'success' => false
+        );
         header('Content-Type: application/json');
         echo json_encode($response);
     }
@@ -67,7 +55,7 @@ if ($recaptchaData->success) {
     // Puedes enviar una respuesta JSON con un mensaje de error si lo deseas
     $response = array(
         'success' => false,
-        'message' => 'Error: Por favor, complete el captcha.'
+        'message' => 'complete el captcha porFavor'
     );
     header('Content-Type: application/json');
     echo json_encode($response);

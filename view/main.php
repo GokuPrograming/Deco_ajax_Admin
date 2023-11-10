@@ -73,7 +73,6 @@ $rolUser = $_SESSION['id_rol'];
             contador();
         }
 
-
         function contador() {
             $.ajax({
                 url: "../controller/user/ctrlUser.php?opc=6", // Ruta al archivo de servidor
@@ -98,6 +97,7 @@ $rolUser = $_SESSION['id_rol'];
             });
         }
     </script>
+    
 </head>
 <!-- elementos del HTML -->
 
@@ -108,15 +108,21 @@ $rolUser = $_SESSION['id_rol'];
     <a href="../view/carrito.php">Ir a carrito</a>
     <!--manda a carrito-->
     <!--mensajes de que el metodo funcionó-->
-    <div id="tbMensajes" class="alert alert-primary" role="alert"></div>
     <br>
 
     <!-- mostrarr todos los productos -->
     <h1 class="display-3 text-center titulo-sc p-3 p-md-5">Todos los productos</h1>
-    <div class="container" id="app">
-        <div class="row align-items-start">
-        </div>
+    <div id="tbMensajes" class="alert" role="alert">
     </div>
+    <div>
+        <div class="container" id="app">
+            <div class="row align-items-start">
+
+            </div>
+        </div>
+
+    </div>
+
     <!--- fin del contendor de produtos--->
     <div id="footer"></div>
 </body>
@@ -154,6 +160,7 @@ $rolUser = $_SESSION['id_rol'];
         cargarBarraDeNavegacion();
         footer();
         contador();
+
     });
 
     function cargarContenidoEnElemento(url, elemento) {
@@ -174,6 +181,6 @@ $rolUser = $_SESSION['id_rol'];
 
     function mostrarAdminTo() {
 
-        cargarContenidoEnElemento("../controller/Admin/ctrlAdmin.php", '#app');
+        cargarContenidoEnElemento("../controller/Admin/ctrlAdmin.php?opc=1", '#app');
     }
 </script>

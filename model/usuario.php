@@ -12,11 +12,14 @@ class Usuario
 
     public function autenticar($correo, $password)
     {
-        $query = $this->db->prepare("SELECT * FROM usuario WHERE correo = :correo and password= :password");
+        $passwordHash = md5($password); // Aplica MD5 al password proporcionado
+
+        $query = $this->db->prepare("SELECT * FROM usuario WHERE correo = :correo AND password = :password");
         $query->bindParam(":correo", $correo);
-        $query->bindParam(":password", $password);
+        $query->bindParam(":password", $passwordHash); // Utiliza el hash en la consulta
 
         $query->execute();
+
 
         // Validación de los datos
         if ($query->rowCount() > 0) {
