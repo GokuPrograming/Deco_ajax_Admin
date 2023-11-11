@@ -6,6 +6,7 @@ use Dompdf\Autoloader;
 
 require_once "../../vendor/autoload.php";
 require_once '../../model/historialCompra.php';
+ob_start();
 
 
 
@@ -18,12 +19,12 @@ class imprimirPDF
         $con = new Conexion();
         $this->db = $con->conectar();
     }
-    public function crearPDF($user,$fecha)
+    public function crearPDF($user, $fecha)
     {
-
         $mostrarVenta = new historialCompras();
 
-        $venta = $mostrarVenta->MostrarICompras($user,$fecha);
+        $venta = $mostrarVenta->MostrarICompras($user, $fecha);
+
         $dompdf = new Dompdf();
         $html = '
         <!DOCTYPE html>
@@ -73,6 +74,7 @@ class imprimirPDF
             <p>Usuario ID: ' . $curso['nombre'] . '</p>
             <p>id Venta: ' . $curso['fecha'] . '</p>
             <p>nombre: ' . $curso['id_venta'] . '</p>';
+            
         }
 
         $html .= '
@@ -83,7 +85,9 @@ class imprimirPDF
         $dompdf->render();
 
         // Especifica el nombre del archivo y permite mostrarlo en el navegador
-        $dompdf->stream("documento.pdf", array('Attachment' => '0'));
+        $dompdf->stream("documento.'.$fecha.'.pdf", array('Attachment' => '0'));
+        ob_end_flush();
         exit; // Importante para evitar la salida adicional que puede afectar al PDF
+
     }
 }

@@ -31,74 +31,76 @@ $rolUser = $_SESSION['id_rol'];
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!--CODIGO QUE ES PARA USUARIO-->
-    <script>
-        function cargarBarraDeNavegacion() {
-            $.ajax({
-                url: '../controller/user/ctrlUser.php?opc=7',
-                type: 'GET',
-                success: function(response) {
-                    $('#barra-navegacion-container').html(response);
-                },
-                error: function() {
-                    // Maneja errores si la solicitud AJAX falla
-                    $('#barra-navegacion-container').html('Error al cargar la barra de navegación');
-                }
-            });
-        }
-        //metodo Generico de peticion con URL(hacer peticiones de insercion)
-        function realizarSolicitudAjax(url, datos, elemento) {
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: datos,
-                success: function(response) {
-                    $(elemento).slideUp(500, function() {
-                        // Cuando la animación de deslizamiento hacia arriba termine, cambiamos el contenido y luego lo deslizamos hacia abajo.
-                        $(this).html(response).slideDown('slow');
-                        setTimeout(function() {
-                            $(elemento).slideUp(
-                                'slow'); // Corrección: debe ser slideUp en lugar de slideUP
-                        }, 3000);
-                    });
-                }
-            });
-        }
-        //meotodos para obtener parametros
-        function agregarACarrito(id_lista_cursos, url, elemento) {
-            realizarSolicitudAjax(
-                "../controller/user/ctrlUser.php?opc=2", {
-                    id_lista_cursos: id_lista_cursos
-                },
-                '#tbMensajes');
-            contador();
-        }
 
-        function contador() {
-            $.ajax({
-                url: "../controller/user/ctrlUser.php?opc=6", // Ruta al archivo de servidor
-                type: "GET",
-                success: function(data) {
-                    $("#contador-value").text("" + data); // Muestra el valor en la barra de navegación
-                }
-            });
-        }
 
-        function footer() {
-            $.ajax({
-                url: '../controller/user/ctrlUser.php?opc=8',
-                type: 'GET',
-                success: function(response) {
-                    $('#footer').html(response);
-                },
-                error: function() {
-                    // Maneja errores si la solicitud AJAX falla
-                    $('#footer').html('Error al cargar la barra de navegación');
-                }
-            });
-        }
-    </script>
-    
 </head>
+<script>
+    function cargarBarraDeNavegacion() {
+        $.ajax({
+            url: '../controller/user/ctrlUser.php?opc=7',
+            type: 'GET',
+            success: function(response) {
+                $('#barra-navegacion-container').html(response);
+            },
+            error: function() {
+                // Maneja errores si la solicitud AJAX falla
+                $('#barra-navegacion-container').html('Error al cargar la barra de navegación');
+            }
+        });
+        contador();
+    }
+    //metodo Generico de peticion con URL(hacer peticiones de insercion)
+    function realizarSolicitudAjax(url, datos, elemento) {
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: datos,
+            success: function(response) {
+                $(elemento).slideUp(500, function() {
+                    // Cuando la animación de deslizamiento hacia arriba termine, cambiamos el contenido y luego lo deslizamos hacia abajo.
+                    $(this).html(response).slideDown('slow');
+                    setTimeout(function() {
+                        $(elemento).slideUp(
+                            'slow'); // Corrección: debe ser slideUp en lugar de slideUP
+                    }, 3000);
+                });
+            }
+        });
+    }
+    //meotodos para obtener parametros
+    function agregarACarrito(id_lista_cursos, url, elemento) {
+        realizarSolicitudAjax(
+            "../controller/user/ctrlUser.php?opc=2", {
+                id_lista_cursos: id_lista_cursos
+            },
+            '#tbMensajes');
+        contador();
+    }
+
+    function contador() {
+        $.ajax({
+            url: "../controller/user/ctrlUser.php?opc=6", // Ruta al archivo de servidor
+            type: "GET",
+            success: function(data) {
+                $("#contador-value").text("" + data); // Muestra el valor en la barra de navegación
+            }
+        });
+    }
+
+    function footer() {
+        $.ajax({
+            url: '../controller/user/ctrlUser.php?opc=8',
+            type: 'GET',
+            success: function(response) {
+                $('#footer').html(response);
+            },
+            error: function() {
+                // Maneja errores si la solicitud AJAX falla
+                $('#footer').html('Error al cargar la barra de navegación');
+            }
+        });
+    }
+</script>
 <!-- elementos del HTML -->
 
 <body>
@@ -120,11 +122,10 @@ $rolUser = $_SESSION['id_rol'];
 
             </div>
         </div>
-
     </div>
+    <div id="footer"></div>
 
     <!--- fin del contendor de produtos--->
-    <div id="footer"></div>
 </body>
 
 </html>

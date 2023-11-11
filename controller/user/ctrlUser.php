@@ -167,7 +167,7 @@ if (isset($_GET['opc'])) {
                     </form>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="../view/adminPanel.php"><img src="../assets/img/hombre.png" alt="" height="30"></a>
+                            <a class="nav-link" href="../view/a.php"><img src="../assets/img/hombre.png" alt="" height="30"></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="SubirVideo.html"><img src="../assets/img/subir.png" alt="subir" height="30px"></a>
@@ -283,11 +283,16 @@ if (isset($_GET['opc'])) {
                                 <h4>Correo</h4>
                                 <span>deco.tecno@itcelaya.edu.mx</span>
                             </div>
+                            <div class="cta-text">
+                            <h4>Correo</h4>
+                            <span>deco.tecno@itcelaya.edu.mx</span>
+                        </div>
+                        
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="footer-content pt-5 pb-5">
+                <main>
+                <div class="footer-content pt-5 pb-5">
                 <div class="row">
                     <div class="col-xl-4 col-lg-4 mb-50">
                         <div class="footer-widget">
@@ -372,18 +377,20 @@ if (isset($_GET['opc'])) {
                 </div>
             </div>
         </div>
+                </main>
     </footer>
-    
     ';
         case '9': //imprimir pdf
-            $id_venta = isset($_GET['id_venta']) && isset($_GET['fecha']);
-            $id_venta = $_GET['id_venta'];
-            $fecha = $_GET['fecha'];
-           echo $fecha."  ".$_SESSION["id_usuario"]." ".$id_venta;
+            $id_venta = isset($_GET['id_venta']) && isset($_GET['fecha']) ? $_GET['id_venta'] : NULL;
+            $fecha = isset($_GET['fecha']) ? $_GET['fecha'] : NULL;
 
-           $imprimir->crearPDF($_SESSION["id_usuario"],$fecha);
+            // $fecha = $_GET['fecha'];
+            //echo $fecha."  ".$_SESSION["id_usuario"]." ".$id_venta;
 
-           break;
+            $imprimir->crearPDF($_SESSION["id_usuario"], $fecha);
+            exit;
+
+
 
         case '10':
             if (isset($_SESSION["id_usuario"])) {

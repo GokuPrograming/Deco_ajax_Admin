@@ -1,5 +1,6 @@
 <?php
 class historialCompras
+
 {
     private $db;
     private $user_id;

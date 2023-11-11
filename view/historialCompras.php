@@ -39,7 +39,7 @@
 
 <body>
     <div id="barra-navegacion-container"></div>
-    <div id="compra"></div>
+    <div id=""></div>
 </body>
 
 </html>
