@@ -123,6 +123,7 @@
           $('#contenido').html(data);
         }
       });
+
     }
 
     function usuarios_top() {
@@ -147,6 +148,27 @@
       });
     }
 
+    function Correo(usuario, contador) {
+      console.log("ID de User:", usuario);
+      console.log("contador:", contador);
+      $.ajax({
+
+        //  $usuario = $_GET['usuario'];
+        //$contador = $_GET['contador'];
+        type: "GET",
+        url: "../controller/Admin/ctrlPanel.php?opc=6",
+        data: {
+          usuario: usuario,
+          contador: contador
+        },
+        success: function(data) {
+          console.log('ya acabo');
+          $('#contenido').html(data);
+        }
+
+      });
+      usuarios_top();
+    }
 
 
     function actualizarRolUsuario(id_usuario, id_rol) {
@@ -171,6 +193,7 @@
       });
       modificarUsuario();
     }
+
 
 
     function cambiarContenido(opcion) {

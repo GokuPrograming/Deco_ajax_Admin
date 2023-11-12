@@ -48,7 +48,7 @@ limit 3; */
         join deco.usuario u on v.id_usuario = u.id_usuario
         group by u.correo
         order by  count(v.id_lista_cursos) desc
-        limit 5 ";
+        limit 10";
 
         $stmt = $this->db->prepare($query);
         $stmt->execute();

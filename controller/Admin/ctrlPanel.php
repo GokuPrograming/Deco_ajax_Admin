@@ -4,15 +4,19 @@ require_once '../../model/conexion.php';
 require_once '../../model/carrito.php';
 require_once '../../model/adminPanel.php';
 require_once '../../adodb5/adodb.inc.php';
+require_once '../../model/enviarCorreo.php';
+//require_once '../../assets/img/gracias.jpeg';
+
 $content = 'Este es el contenido del panel administrador';
 $data = array("2023-10-11" => 12, "Ron" => 39);
 
 // Devuelve el contenido como respuesta
 //echo $content;
-
+//correo
 $mostrar = new model_cursos();
 $carrito = new carrito();
 $adminPanel = new admin_panel();
+$correo = new MailerService();
 //echo 'llego al controlador';
 if (isset($_GET['opc'])) {
     $opc = $_GET['opc'];
@@ -37,10 +41,11 @@ if (isset($_GET['opc'])) {
                               <td>' . $contador . '</td>
                               <td>' . $usuarioTOP['cantidad'] . '</td>
                               <td>' . $usuarioTOP['correo'] . '</td>
-                             <td> <input type="button" class="btn btn-danger" value="ENVIAR FELICITACION" onclick="enviarCorreo(' . $usuarioTOP['correo'] . ')"></td>
-
+                             <td> <input type="button" class="btn btn-danger" value="Comprar" onclick="Correo(\'' . $usuarioTOP['correo'] . '\', \'' . $contador . '\')">
+                             </td>
                           </tr>';
                     $contador++;
+                    // ' . $usuarioTOP['correo'] . '
                 }
 
                 echo '</table>';
@@ -118,13 +123,13 @@ if (isset($_GET['opc'])) {
             $rol = $_GET['id_rol'];
 
             //echo 'holaaa    usuario= ' . $usuario . 'rol=' . $rol;
-        
+
             if ($adminPanel->actualizarRolUsuario($usuario, $rol)) {
                 echo "Actualización exitosa.";
             } else {
                 echo "Error al actualizar el rol.";
             }
-            
+
 
             break;
         case 5: //graficas
@@ -145,10 +150,25 @@ if (isset($_GET['opc'])) {
                 echo json_encode(['error' => 'Fechas no proporcionadas']);
                 exit;
             }
-            break;
-
+        case 6:
+            //mandarCorreo de felicitacion
+            $para = $_GET['usuario'];
+            $contador = $_GET['contador'];
+            //$para = '19031725@itcelaya.edu.mx';
+            $asunto = 'FELICIDADES!';
+            $mensaje = '<h1>Felicitaciones, ' . $para . '</h1>
+                        <p>Queremos expresar nuestro agradecimiento y felicitaciones por ser uno de los mejores compradores en la plataforma DECO. Tu continua preferencia y apoyo nos motivan a seguir brindándote el mejor servicio.</p>
+                        <p>Gracias por ser parte de nuestra comunidad y confiar en nosotros para tus compras. ¡Esperamos que disfrutes de tus productos y esperamos verte pronto en DECO!</p>
+                        <p>¡Sigue siendo un comprador increíble!</p>
+                        <p>Saludos,</p>
+                        <p>El equipo DECO</p>
+                        ';
+    
+            echo 'correo=' . $usuario . 'posicion=' . $contador . 'asunto=' . $asunto . 'mensaje=' . $mensaje;
+            $correo->sendMail($para,$asunto,$mensaje,$para);
+            //echo 'hola opc 6';
             // Otros casos para diferentes opciones si es necesario
-
+            break;
         default:
             // Manejo de error si la opción no es válida
             echo json_encode(['error' => 'Opción no válida']);

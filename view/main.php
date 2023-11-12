@@ -104,7 +104,7 @@ $rolUser = $_SESSION['id_rol'];
 <!-- elementos del HTML -->
 
 <body>
-
+<a href="gmail/index.html">enviar correo</a>
     <div id="barra-navegacion-container"></div>
 
     <a href="../view/carrito.php">Ir a carrito</a>

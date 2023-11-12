@@ -19,17 +19,8 @@
         }
       });
     }
-    /*
-        function usuarioT() {
-          $.ajax({
-            type: "GET",
-            url: "../controller/Admin/ctrlPanel.php?opc=2",
-            data: {},
-            success: function(data) {
-              $('#a').html(data);
-            }
-          });
-        }*/
+
+    
   </script>
 </head>
 
@@ -66,9 +57,12 @@
         </div>
         <div id="posts">
           <h2 class="header">
-
+ewqeweq
           </h2>
           <p id="a"></p>
+          <form action=""> <input type="button" class="btn btn-danger" value="Comprar" onclick="Correo()">
+          </form>
+
         </div>
         <div id="media">
 
@@ -145,5 +139,6 @@
         console.log('Error al obtener datos de usuarios:', error);
       }
     });
+    recargarPagina();
   });
 </script>
