@@ -27,7 +27,7 @@
       
 
         function borrarDeCarrito(id_lista_cursos) {
-            $.ajax({
+            $.ajax({ 
                 type: "POST",
                 url: "../controller/user/ctrlUser.php?opc=4",
                 data: {

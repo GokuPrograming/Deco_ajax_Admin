@@ -93,7 +93,7 @@ if (isset($_GET['opc'])) {
 
                 //MUESTRA DE CARRITO
                 if ($cursosEnCarrito) {
-                    foreach ($cursosEnCarrito as $curso) {
+                    foreach ($cursosEnCarrito as $curso) { 
 
                         echo '
                       
@@ -120,7 +120,7 @@ if (isset($_GET['opc'])) {
             } else {
                 echo "El usuario no está definido";
             }
-            break;
+            break; 
         case '4': //elimina un elemento del carrito
             if (isset($_SESSION["id_usuario"])) {
                 $carrito = new carrito();

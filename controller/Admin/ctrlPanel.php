@@ -5,6 +5,7 @@ require_once '../../model/carrito.php';
 require_once '../../model/adminPanel.php';
 require_once '../../adodb5/adodb.inc.php';
 $content = 'Este es el contenido del panel administrador';
+$data = array("2023-10-11" => 12, "Ron" => 39);
 
 // Devuelve el contenido como respuesta
 //echo $content;
@@ -47,33 +48,48 @@ if (isset($_GET['opc'])) {
             }
 
 
-        case 2: ///mostrar Todos los usuarios
+        case 2: // Mostrar todos los usuarios
             if (isset($_SESSION["id_usuario"])) {
-                $usuarioT = $adminPanel->usuariosTodos();
-                echo
-                '<h2>Administración de Usuarios</h2>
-                <table> 
-                <tr> 
-                    <th>ID</th>
-                    <th>cantidad</th>
-                    <th>Email</th>
-                    <th>Enviar Agradecimiento</th>
-                </tr>';
+                $usuarios = $adminPanel->usuariosTodos();
+                $roles = $adminPanel->traerRol();
 
-                foreach ($usuarioT as $usuarioT) {
+                echo '<h2>Administración de Usuarios</h2>';
+                echo '<table>';
+                echo '<tr>
+                                <th>ID</th>
+                                <th>Rol</th>
+                                <th>Email</th>
+                                <th>Enviar Agradecimiento</th>
+                              </tr>';
+
+                foreach ($usuarios as $usuario) {
                     echo '<tr>
-                      <td>' .  $usuarioT['id_usuario'] . '</td>
-                      <td>' . $usuarioT['rol'] . '</td>
-                      <td>' . $usuarioT['correo'] . '</td>
-                     <td> <input type="button" class="btn btn-danger" value="modificar ROL" onclick="modificarRol(' . $usuarioT['rol'] . ')"></td>
-
-                  </tr>';
+                                    <td>' .  $usuario['id_usuario'] . '</td>
+                                    <td>' . $usuario['rol'] . '</td>
+                                    <td>' . $usuario['correo'] . '</td>
+                                    <td>
+                                        <form id="miFormulario' . $usuario['id_usuario'] . '">
+                                            <label for="select">Selecciona una opción:</label>
+                                            <select id="select_' . $usuario['id_usuario'] . '" name="select">
+                                                <option value="">-- Selecciona --</option>';
+                    foreach ($roles as $usuarioR) {
+                        echo '<option value="' . $usuarioR['id_rol'] . '">' . $usuarioR['rol'] . '</option>';
+                    }
+                    echo '</select>
+                            <input type="button" value="Enviar" onclick="actualizarRolUsuario(\'' . $usuario['id_usuario'] . '\', document.getElementById(\'select_' . $usuario['id_usuario'] . '\').value)">
+                       ';
+                    echo '
+                            </form>
+                                    </td>
+                                </tr>';
                 }
                 echo '</table>';
 
                 exit(); // Termina la ejecución después de enviar los datos
             }
             break;
+
+
         case 3: //cursos top
             if (isset($_SESSION["id_usuario"])) {
                 $cursos = $adminPanel->listaDeloMasVendido();
@@ -90,24 +106,56 @@ if (isset($_GET['opc'])) {
                     echo '<tr>
                       <td>' .  $curso['titulo'] . '</td>
                       <td>' . $curso['cantidad'] . '</td>
-                   
-
                   </tr>';
                 }
                 echo '</table>';
                 exit(); // Termina la ejecución después de enviar los datos
 
             }
-            case 4:
-                if (isset($_SESSION["id_usuario"])) {
-                    echo '<form method="post" action="../controller/Admin/ctrlPanel.php?opc=1">
-                            <input type="text" id="fecha_inicial" class="fadeIn third" name="fecha_inicial" placeholder="Fecha inicial" required>
-                            <input type="text" id="fecha_nacimiento" class="fadeIn third" name="fecha_nacimiento" placeholder="Fecha de Nacimiento" required>
-                            <input type="hidden" name="opc" value="4"> <!-- Campo oculto para la opción -->
-                            <input type="submit" class="fadeIn fourth" value="Registrarse" required>
-                          </form>';
-                }
-                break;
+
+        case 4: // Actualizar rol
+            $usuario = $_GET['id_usuario'];
+            $rol = $_GET['id_rol'];
+
+            //echo 'holaaa    usuario= ' . $usuario . 'rol=' . $rol;
+        
+            if ($adminPanel->actualizarRolUsuario($usuario, $rol)) {
+                echo "Actualización exitosa.";
+            } else {
+                echo "Error al actualizar el rol.";
+            }
             
+
+            break;
+        case 5: //graficas
+            // Realiza la lógica para la opción 5 (por ejemplo, llama a tu función graficaVentaPeriodo)
+            if (isset($_POST['fechaInicio']) && isset($_POST['fechaFinal'])) {
+                $fechaInicio = $_POST['fechaInicio'];
+                $fechaFinal = $_POST['fechaFinal'];
+
+                // Llama a tu función para obtener los datos
+                $datos = $adminPanel->graficaVentaPeriodo($fechaInicio, $fechaFinal);
+
+                // Devuelve los datos en formato JSON
+                header('Content-Type: application/json');
+                echo json_encode($datos);
+                exit;
+            } else {
+                // Manejo de error si las fechas no están presentes en la solicitud
+                echo json_encode(['error' => 'Fechas no proporcionadas']);
+                exit;
+            }
+            break;
+
+            // Otros casos para diferentes opciones si es necesario
+
+        default:
+            // Manejo de error si la opción no es válida
+            echo json_encode(['error' => 'Opción no válida']);
+            exit;
     }
+} else {
+    // Manejo de error si la opción no está presente en la solicitud
+    echo json_encode(['error' => 'Opción no proporcionada']);
+    exit;
 }

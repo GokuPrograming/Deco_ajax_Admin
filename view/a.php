@@ -76,9 +76,12 @@
 
     /* Estilos específicos para la gráfica */
     #MiGrafica {
-      max-width: 300px; /* Ancho máximo del canvas */
-      max-height: 200px; /* Altura máxima del canvas */
-      margin: 10px; /* Márgenes para separar la gráfica de otros elementos */
+      max-width: 300px;
+      /* Ancho máximo del canvas */
+      max-height: 200px;
+      /* Altura máxima del canvas */
+      margin: 10px;
+      /* Márgenes para separar la gráfica de otros elementos */
     }
   </style>
 </head>
@@ -93,41 +96,23 @@
     <a href="#" onclick="cambiarContenido('usuarios')">Usuarios</a>
     <a href="#" onclick="cambiarContenido('usuarios-top')">Usuarios Top</a>
     <a href="#" onclick="cambiarContenido('cursos')">Cursos Valorados</a>
-    <a href="#" onclick="cambiarContenido('graficas')">Gráficas</a>
+    <a href="g.html" onclick="cambiarContenido('graficas')">Gráficas</a>
   </nav>
-
-  <section id="contenido">
-    <!-- Contenido de la sección (se actualizará dinámicamente) -->
-    <h2>Bienvenido al Panel de Administrador</h2>
-    <p>Selecciona una opción en la barra de navegación.</p>
-  </section>
-  <div>
+  <div id="">
+    <section id="contenido">
+      <!-- Contenido de la sección (se actualizará dinámicamente) -->
+      <h2>Bienvenido al Panel de Administrador</h2>
+      <p>Selecciona una opción en la barra de navegación.</p>
+    </section>
     <canvas id="MiGrafica"></canvas>
+
+
   </div>
 
   <footer>
     <p>&copy; 2023 Panel de Administrador</p>
   </footer>
-  <script>
-    // Asegúrate de que el código se ejecute después de que el DOM esté completamente cargado
-    document.addEventListener("DOMContentLoaded", function() {
-      // Obtén el contexto 2D del canvas
-      let miCanvas = document.getElementById("MiGrafica").getContext("2d");
 
-      // Configuración de la gráfica
-      var chart = new Chart(miCanvas, {
-        type: "bar",
-        data: {
-          labels: ["Vino", "Ron"],
-          datasets: [{
-            label: "Mi Gráfica",
-            backgroundColor: "rgb(0, 0, 0)",
-            data: [12, 39]
-          }]
-        }
-      });
-    });
-  </script>
   <script>
     function modificarUsuario() {
       $.ajax({
@@ -162,16 +147,31 @@
       });
     }
 
-    function grafica() {
+
+
+    function actualizarRolUsuario(id_usuario, id_rol) {
+      console.log("ID de Usuario:", id_usuario);
+      console.log("ID de Usuario:", id_rol);
       $.ajax({
         type: "GET",
         url: "../controller/Admin/ctrlPanel.php?opc=4",
-        data: {},
+        data: {
+          id_usuario: id_usuario,
+          id_rol: id_rol
+        },
         success: function(data) {
-          $('#contenido').html(data);
+          console.log("Respuesta del servidor:", data);
+          $('#a').html(data);
+
+
+        },
+        error: function(error) {
+          console.error('Error en la petición AJAX:', error);
         }
       });
+      modificarUsuario();
     }
+
 
     function cambiarContenido(opcion) {
       var contenido = document.getElementById('contenido');
@@ -190,18 +190,13 @@
           break;
 
         case 'graficas':
-          grafica();
+          //grafica();
           break;
 
         default:
           contenido.innerHTML =
             '<h2>Bienvenido al Panel de Administrador</h2><p>Selecciona una opción en la barra de navegación.</p>';
       }
-    }
-
-    function generarGrafica() {
-      // Aquí puedes agregar lógica para generar la gráfica utilizando los datos ingresados.
-      alert('Generando gráfica con los datos ingresados.');
     }
   </script>
 
