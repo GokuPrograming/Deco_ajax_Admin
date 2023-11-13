@@ -3,13 +3,11 @@
 class admin_panel
 {
     private $db;
-
     public function __construct()
     {
         $con = new Conexion();
         $this->db = $con->conectar();
     }
-
     public function listaDeloMasVendido()
     {
 
@@ -19,7 +17,6 @@ join deco.lista_curso lc on v.id_lista_cursos = lc.id_lista_cursos
 group by lc.id_lista_cursos
 order by count(v.id_lista_cursos) desc
 ; */
-
         $query = "SELECT v.id_lista_cursos,lc.titulo, count(lc.id_lista_cursos) as cantidad
         from venta v
         join deco.lista_curso lc on v.id_lista_cursos = lc.id_lista_cursos

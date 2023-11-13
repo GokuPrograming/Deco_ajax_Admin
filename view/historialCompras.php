@@ -10,7 +10,7 @@
     <script>
         function cargarBarraDeNavegacion() {
             $.ajax({
-                url: '../controller/user/ctrlUser.php?opc=10',
+                url: '../controller/pdf/ctrlPDF.php?opc=1',
                 type: 'GET',
                 success: function(response) {
                     $('#barra-navegacion-container').html(response);
@@ -27,7 +27,7 @@
             // Agrega al carrito
             $.ajax({
                 type: "POST",
-                url: "../controller/user/ctrlUser.php?opc=9",
+                url: "../controller/pdf/ctrlPDF.php?opc=2",
                 data: {},
                 success: function(data) {
                     $('#compra').html(data); // Actualiza la tabla del carrito

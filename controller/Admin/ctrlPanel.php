@@ -4,7 +4,7 @@ require_once '../../model/conexion.php';
 require_once '../../model/carrito.php';
 require_once '../../model/adminPanel.php';
 require_once '../../adodb5/adodb.inc.php';
-require_once '../../model/enviarCorreo.php';
+require_once '../../model/enviarCorreo.php';  
 //require_once '../../assets/img/gracias.jpeg';
 
 $content = 'Este es el contenido del panel administrador';

@@ -1,31 +1,34 @@
 <?php
 
-use Dompdf\Dompdf;
+/*use Dompdf\Dompdf;
 use Dompdf\Options;
 use Dompdf\Autoloader;
-
-require_once("../../vendor/autoload.php");
+*/
+//require_once("../../vendor/autoload.php");
 require_once '../../model/model_cursos.php';
 require_once '../../model/conexion.php';
 require_once '../../model/carrito.php';
 require_once '../../model/historialCompra.php';
 require_once '../../adodb5/adodb.inc.php';
-require_once '../../model/imprimirPDF.php';
+//require_once '../../model/imprimirPDF.php';
+require_once '../../model/enviarCorreo.php';
+
+
 $content = 'Este es el contenido del panel de usuario.';
 
-
+/*
 $options = new Options();
 $options->set('isHtml5ParserEnabled', true);
 $options->set('isPhpEnabled', true);
-
-$dompdf = new Dompdf($options);
+*/
+//$dompdf = new Dompdf($options);
 // Devuelve el contenido como respuesta
 //echo $content;
 
 $mostrar = new model_cursos();
 $mostrarVenta = new historialCompras();
 $carrito = new carrito();
-$imprimir = new imprimirPDF();
+//$imprimir = new imprimirPDF();
 
 
 //echo 'llego al controlador';
@@ -93,14 +96,12 @@ if (isset($_GET['opc'])) {
 
                 //MUESTRA DE CARRITO
                 if ($cursosEnCarrito) {
-                    foreach ($cursosEnCarrito as $curso) { 
+                    foreach ($cursosEnCarrito as $curso) {
 
                         echo '
                       
                                 <table class="container1" id="mostrarCarro">
                                 <tr>
-                                    <!--<td><img src="../assets/img/' . $curso['imagen'] . '" alt="' . $curso['titulo'] . '">
-                                    </td>-->
                                     <td>
                                         <figcaption class="titulo">' . $curso['titulo'] . '</figcaption>
                                         <figcaption class="titulo"><img src="../assets/img/etiqueta-del-precio.png" width="25px" height="25px"
@@ -120,7 +121,7 @@ if (isset($_GET['opc'])) {
             } else {
                 echo "El usuario no está definido";
             }
-            break; 
+            break;
         case '4': //elimina un elemento del carrito
             if (isset($_SESSION["id_usuario"])) {
                 $carrito = new carrito();
@@ -135,6 +136,31 @@ if (isset($_GET['opc'])) {
             if (isset($_SESSION["id_usuario"])) {
                 $carrito = new Carrito(); // Asegúrate de que la clase Carrito esté definida
                 $idUser = $_SESSION["id_usuario"];
+                $carritoTicket = $carrito->obtenerCursosCarrito($idUser);
+                $total = $carrito->Total_pagar($_SESSION["id_usuario"]);
+                $ultimoUsuario = '';  // Variable para almacenar el usuario
+                $ticket = '<div style="border: 2px solid #333; padding: 20px; margin: 20px; max-width: 600px;">';
+
+                foreach ($carritoTicket as $curso) {
+                    // Guarda el correo del último usuario
+                    $ultimoUsuario = $curso['correo'];
+
+                    // Concatena la información de cada curso en la variable $ticket con estilos
+                    $ticket .= '<h1 style="text-align: center; color: #333;">Ticket de Registro de Pago</h1>';
+                    $ticket .= '<p class="display-1 pt-2 nombre-pro" style="font-size: 20px; font-weight: bold;">' . $curso['titulo'] . '</p>';
+                    $ticket .= '<p class="cat-origen pb-1" style="font-size: 16px; color: #555;">Precio: ' . $curso['precio'] . '</p>';
+                }
+
+                // Agrega el total de la compra al final del ticket
+                $ticket .= '<p class="total" style="font-size: 18px; font-weight: bold; text-align: right;">Total:$ ' . $total . '.00</p>';
+                $ticket .= '</div>';
+
+                // Imprime la información para verificar si se está generando correctamente
+                //echo 'El último usuario es: ' . $ultimoUsuario;
+                //echo 'Cursos=' . $ticket;
+
+                $correo = new MailerService();
+                $correo->sendMailTicket($ultimoUsuario, $ticket);
                 $carrito->comprarCarrito($idUser);
                 echo "compra exitosa";
                 break;
@@ -380,19 +406,21 @@ if (isset($_GET['opc'])) {
                 </main>
     </footer>
     ';
+
+            break;
         case '9': //imprimir pdf
             $id_venta = isset($_GET['id_venta']) && isset($_GET['fecha']) ? $_GET['id_venta'] : NULL;
             $fecha = isset($_GET['fecha']) ? $_GET['fecha'] : NULL;
 
-            // $fecha = $_GET['fecha'];
-            //echo $fecha."  ".$_SESSION["id_usuario"]." ".$id_venta;
+            $fecha = $_GET['fecha'];
+            echo $fecha . "  " . $_SESSION["id_usuario"] . " " . $id_venta;
 
             $imprimir->crearPDF($_SESSION["id_usuario"], $fecha);
             exit;
 
 
 
-        case '10':
+        case '10': ///mostrar historial de
             if (isset($_SESSION["id_usuario"])) {
                 $venta = $mostrarVenta->MostrarCompras($_SESSION["id_usuario"]);
                 echo '<div class="curso-grid">';
@@ -404,12 +432,12 @@ if (isset($_GET['opc'])) {
                         <p class="cat-origen pb-1">idventa=' . $curso['id_venta'] . '</p>
                         <input type="button" class="btn btn-danger" value="imprimir" onclick="imprimir()">
                         <a href="../controller/user/ctrlUser.php?opc=9&id_venta=' . $curso['id_venta'] . '&fecha=' . $curso['fecha'] . '" target="_blank">aaaaa</a>
-                        
                    </div>';
                 }
                 echo '</div>';
             } else {
                 echo "El usuario no está definido";
             }
+            exit;
     }
 }

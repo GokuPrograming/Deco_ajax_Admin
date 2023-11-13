@@ -10,9 +10,10 @@ class carrito
     }
     public function obtenerCursosCarrito($user_id)
     {
-        $query = "SELECT lc.titulo, lc.precio,lc.imagen,lc.id_lista_cursos
-                  FROM carrito c
-                  JOIN lista_curso lc ON lc.id_lista_cursos = c.id_lista_cursos
+        $query = "SELECT lc.titulo, lc.precio,lc.id_lista_cursos,correo
+        FROM carrito c
+        JOIN lista_curso lc ON lc.id_lista_cursos = c.id_lista_cursos
+        join deco.usuario u on u.id_usuario = c.id_usuario
                   WHERE c.id_usuario = :user_id";
 
         $stmt = $this->db->prepare($query);
@@ -140,7 +141,7 @@ class carrito
 
         if ($rs->execute()) {
             // La compra se ha registrado correctamente en la base de datos
-            echo "¡Compra registrada en la base de datos!";
+            echo "entro a ventas";
             // header("Location: ../html/compraConcluida.php");
             // header("Location: ../html/main.php?comprado=1");
         } else {

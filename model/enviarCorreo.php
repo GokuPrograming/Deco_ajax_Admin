@@ -50,6 +50,35 @@ class MailerService
             echo "No se pudo enviar el mensaje. Error del remitente: {$mail->ErrorInfo}";
         }
     }
+    public function sendMailTicket($para, $mensaje)
+    {
+        $mail = new PHPMailer(true);
+
+        try {
+            // Configuración del servidor SMTP de Gmail
+           // $mail->SMTPDebug = SMTP::DEBUG_SERVER; // Desactiva la salida de depuración (puedes cambiarlo según tus necesidades)
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com'; // Servidor SMTP de Gmail
+            $mail->SMTPAuth   = true;
+            $mail->Port       = 587; // Puerto SMTP de Gmail
+            $mail->Username   = 'deco14m@gmail.com'; // Tu dirección de correo de Gmail
+            $mail->Password   = 'sjljmtsfuudrfvmq'; // Tu contraseña de Gmail
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Habilita el cifrado TLS
+
+            // Configuración de los destinatarios y contenido del correo
+            $mail->setFrom('deco14m@gmail.com', 'DECO COMPANY'); // Tu dirección de correo y tu nombre
+            $mail->addAddress($para); // Dirección de correo del destinatario y su nombre
+            $mail->isHTML(true);
+            $mail->Subject = 'TICKET';
+            $mail->Body = $mensaje;
+            $mail->AltBody = 'Comprobante de pago';
+            // Envía el correo
+            $mail->send();
+            echo 'El mensaje ha sido enviado';
+        } catch (Exception $e) {
+            echo "No se pudo enviar el mensaje. Error del remitente: {$mail->ErrorInfo}";
+        }
+    }
 }
 
 // Uso del método
