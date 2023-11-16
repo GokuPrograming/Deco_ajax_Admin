@@ -2,7 +2,7 @@
  session_start();
 class Conexion {
     private $DBServer = '127.0.0.1'; // Cambia esto al nombre o dirección IP de tu servidor de base de datos
-    private $DBUser = 'a'; // Cambia esto a tu nombre de usuario de la base de datos
+    private $DBUser = 'as'; // Cambia esto a tu nombre de usuario de la base de datos
     private $DBPass = '123'; // Cambia esto a tu contraseña de la base de datos
     private $DBName = 'deco'; // Cambia esto a tu nombre de base de datos
 

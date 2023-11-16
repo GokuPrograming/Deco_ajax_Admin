@@ -17,7 +17,7 @@ class MailerService
 
         try {
             // Configuración del servidor SMTP de Gmail
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER; // Desactiva la salida de depuración (puedes cambiarlo según tus necesidades)
+           // $mail->SMTPDebug = SMTP::DEBUG_SERVER; // Desactiva la salida de depuración (puedes cambiarlo según tus necesidades)
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com'; // Servidor SMTP de Gmail
             $mail->SMTPAuth   = true;

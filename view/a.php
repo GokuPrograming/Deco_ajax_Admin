@@ -109,6 +109,7 @@
 
   </div>
 
+
   <footer>
     <p>&copy; 2023 Panel de Administrador</p>
   </footer>
@@ -162,12 +163,15 @@
           contador: contador
         },
         success: function(data) {
-          console.log('ya acabo');
-          $('#contenido').html(data);
+          setTimeout(function() {
+            // Realiza otra acción aquí, por ejemplo, redirige a otra página
+            alert('El correo se ha enviado correctamente');
+          }, 2000);
+          $('#noSeEnvia').html(data);
         }
 
       });
-      usuarios_top();
+      //usuarios_top();
     }
 
 
@@ -183,7 +187,7 @@
         },
         success: function(data) {
           console.log("Respuesta del servidor:", data);
-          $('#a').html(data);
+          $('#as').html(data);
 
 
         },

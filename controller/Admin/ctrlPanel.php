@@ -164,7 +164,7 @@ if (isset($_GET['opc'])) {
                         <p>El equipo DECO</p>
                         ';
     
-            echo 'correo=' . $usuario . 'posicion=' . $contador . 'asunto=' . $asunto . 'mensaje=' . $mensaje;
+           // echo 'correo=' . $usuario . 'posicion=' . $contador . 'asunto=' . $asunto . 'mensaje=' . $mensaje;
             $correo->sendMail($para,$asunto,$mensaje,$para);
             //echo 'hola opc 6';
             // Otros casos para diferentes opciones si es necesario

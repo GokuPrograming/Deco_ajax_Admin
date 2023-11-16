@@ -104,6 +104,14 @@ $rolUser = $_SESSION['id_rol'];
 <!-- elementos del HTML -->
 
 <body>
+
+<div>
+
+<?php
+
+
+?>
+</div>
 <a href="gmail/index.html">enviar correo</a>
     <div id="barra-navegacion-container"></div>
 

@@ -10,6 +10,7 @@ require_once '../../model/conexion.php';
 require_once '../../model/carrito.php';
 require_once '../../model/historialCompra.php';
 require_once '../../adodb5/adodb.inc.php';
+require_once '../../model/cerrarSesion.php';
 //require_once '../../model/imprimirPDF.php';
 require_once '../../model/enviarCorreo.php';
 
@@ -24,7 +25,7 @@ $options->set('isPhpEnabled', true);
 //$dompdf = new Dompdf($options);
 // Devuelve el contenido como respuesta
 //echo $content;
-
+$cerrarSesion = new cerrarSesion;
 $mostrar = new model_cursos();
 $mostrarVenta = new historialCompras();
 $carrito = new carrito();
@@ -116,7 +117,7 @@ if (isset($_GET['opc'])) {
                     echo ' <p>TOTAL A PAGAR:' . $total . '</p>';
                     echo '<input type="button" class="btn btn-danger" value="Comprar" onclick="comprarCarrito()">';
                 } else {
-                    echo "El carrito está vacío.";
+                    echo "El carrito está vacío."; 
                 }
             } else {
                 echo "El usuario no está definido";
@@ -140,13 +141,12 @@ if (isset($_GET['opc'])) {
                 $total = $carrito->Total_pagar($_SESSION["id_usuario"]);
                 $ultimoUsuario = '';  // Variable para almacenar el usuario
                 $ticket = '<div style="border: 2px solid #333; padding: 20px; margin: 20px; max-width: 600px;">';
-
+                $ticket .= '<h1 style="text-align: center; color: #333;">Ticket de Registro de Pago</h1>';
                 foreach ($carritoTicket as $curso) {
                     // Guarda el correo del último usuario
                     $ultimoUsuario = $curso['correo'];
 
                     // Concatena la información de cada curso en la variable $ticket con estilos
-                    $ticket .= '<h1 style="text-align: center; color: #333;">Ticket de Registro de Pago</h1>';
                     $ticket .= '<p class="display-1 pt-2 nombre-pro" style="font-size: 20px; font-weight: bold;">' . $curso['titulo'] . '</p>';
                     $ticket .= '<p class="cat-origen pb-1" style="font-size: 16px; color: #555;">Precio: ' . $curso['precio'] . '</p>';
                 }
@@ -217,7 +217,7 @@ if (isset($_GET['opc'])) {
     
                         <li class="nav-item active">
     
-                            <a class="nav-link" href="../Controladores/ctrlCerrarSesion.php"><img src="../assets/img/flecha.png" alt="" height="30">
+                            <a class="nav-link" href="../controller/user/ctrlUser.php?opc=11"><img src="../assets/img/flecha.png" alt="" height="30">
                                 cerraar sesion <span class="sr-only">(current)</span></a>
                         </li>
                     </ul>
@@ -269,7 +269,7 @@ if (isset($_GET['opc'])) {
     
                         <li class="nav-item active">
     
-                            <a class="nav-link" href="../Controladores/ctrlCerrarSesion.php"><img src="../assets/img/flecha.png" alt="" height="30">
+                            <a class="nav-link" href="../controller/user/ctrlUser.php?opc=11"><img src="../assets/img/flecha.png" alt="" height="30">
                                 cerraar sesion <span class="sr-only">(current)</span></a>
                         </li>
                     </ul>
@@ -323,7 +323,7 @@ if (isset($_GET['opc'])) {
                     <div class="col-xl-4 col-lg-4 mb-50">
                         <div class="footer-widget">
                             <div class="footer-logo">
-                                <a href="index.html"><img src="../assets/img/OIG.jpeg" class="img-fluid" alt="logo"></a>
+                                <a href="index.php"><img src="../assets/img/OIG.jpeg" class="img-fluid" alt="logo"></a>
                             </div>
                             <div class="footer-text">
                                 <p>"Empoderamos tu potencial a través del aprendizaje en línea, impulsando tu éxito
@@ -439,5 +439,10 @@ if (isset($_GET['opc'])) {
                 echo "El usuario no está definido";
             }
             exit;
+
+        case '11':
+            $cerrarSesion->logoutUserById($_SESSION['id_usuario']);
+            header('Location: ../../index.php');
+            break;
     }
 }

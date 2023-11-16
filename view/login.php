@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,6 +19,7 @@
 </head>
 
 <body>
+
     <div class="wrapper fadeInDown">
         <div id="formContent">
             <!-- Tabs Titles -->
@@ -39,7 +41,7 @@
             <script src="../js/login.js"></script>
             <!-- Remind Passowrd -->
             <div id="formFooter">
-                <a class="underlineHover" href="../index.html">Go to the Site</a>
+                <a class="underlineHover" href="../index.php">Go to the Site</a>
             </div>
 
         </div>
@@ -50,3 +52,6 @@
 </body>
 
 </html>
+<?php
+
+?>

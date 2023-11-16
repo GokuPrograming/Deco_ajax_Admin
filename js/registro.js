@@ -38,7 +38,7 @@ jQuery(document).on('submit', '#forming', function (event) {
                 $('#successModal').modal('show');
                 setTimeout(function () {
                     // Realiza otra acción aquí, por ejemplo, redirige a otra página
-                    window.location.href = '../index.html';
+                    window.location.href = '../index.php';
                 }, 3000);
 
             } else {

@@ -1,5 +1,5 @@
 jQuery(document).on('submit', '#forming', function (event) {
-    event.preventDefault();
+    event.preventDefault(); 
     jQuery.ajax({
         url: '../controller/ctrlLogin.php',
         type: 'POST',
