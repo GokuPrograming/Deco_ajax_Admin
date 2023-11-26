@@ -216,7 +216,6 @@ if (isset($_GET['opc'])) {
                         </li>
     
                         <li class="nav-item active">
-    
                             <a class="nav-link" href="../controller/user/ctrlUser.php?opc=11"><img src="../assets/img/flecha.png" alt="" height="30">
                                 cerraar sesion <span class="sr-only">(current)</span></a>
                         </li>

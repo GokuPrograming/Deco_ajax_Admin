@@ -12,7 +12,6 @@ ob_start();
 
 class imprimirPDF
 {
-
     private $db;
     public function __construct()
     {
