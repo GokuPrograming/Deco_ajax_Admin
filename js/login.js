@@ -11,7 +11,7 @@ jQuery(document).on('submit', '#forming', function (event) {
         }
     })
         .done(function (respuesta) {
-            console.log(respuesta);
+            console.log(respuesta);    
             // Evaluar la respuesta
             if (!respuesta.error) {
                 if (respuesta.tipo == 'user') {

@@ -1,15 +1,20 @@
 <?php
-require_once '../model/usuario.php';
-require_once '../model/conexion.php';
-
-// Comprobar si se recibió una solicitud POST para iniciar sesión
-$rolUser = $_SESSION['id_rol'];
+session_start();
+if (isset($_SESSION['id_usuario'])) {
+    //header('location: view/main.php');
+    // You may want to remove this echo statement unless it's for debugging purposes
+    // echo "sesion" . $_SESSION['id_usuario'];
+} else {
+    //echo "Sesión no iniciada";
+    header('location: Login.php');
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todos los productos</title>
@@ -105,21 +110,15 @@ $rolUser = $_SESSION['id_rol'];
 
 <body>
 
-<div>
 
-<?php
-
-
-?>
-</div>
+<!--
 <a href="gmail/index.html">enviar correo</a>
-    <div id="barra-navegacion-container"></div>
 
-    <a href="../view/carrito.php">Ir a carrito</a>
+    <a href="../view/carrito.php">Ir a carrito</a>-->
     <!--manda a carrito-->
     <!--mensajes de que el metodo funcionó-->
-    <br>
-
+  
+    <div id="barra-navegacion-container"></div>
     <!-- mostrarr todos los productos -->
     <h1 class="display-3 text-center titulo-sc p-3 p-md-5">Todos los productos</h1>
     <div id="tbMensajes" class="alert" role="alert">

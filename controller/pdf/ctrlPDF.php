@@ -26,20 +26,37 @@ if (isset($_GET['opc'])) {
     switch ($opc) {
         case '1': ///mostrar historial de compras
             if (isset($_SESSION["id_usuario"])) {
+                echo '<table>
+                        <thead>
+                          <tr>
+                            <th>usuario</th>
+                            <th>fecha</th>
+                            <th>Folio</th>
+                            <th>PDF</th>
+                          </tr>
+                        </thead>
+                        <tbody>';  // Abre el cuerpo de la tabla fuera del bucle
+        
                 $venta = $mostrarVenta->MostrarCompras($_SESSION["id_usuario"]);
                 foreach ($venta as $curso) {
-                    echo '<div class="curso-card">';
-                    echo '<p class="display-1 pt-2 nombre-pro">compra del usuario= ' . $curso['nombre'] . ' ' . $curso['primer_apellido'] . ' ' . $curso['segundo_apellido'] . '</p>';
-                    echo '<p class="cat-origen pb-1">compra del dia=' . $curso['fecha'] . '</p>';
-                    echo '<p class="cat-origen pb-1">idventa=' . $curso['id_venta'] . '</p>';
-                    echo '<a href="../controller/pdf/ctrlPDF.php?opc=2&id_venta=' . $curso['id_venta'] . '&fecha=' . $curso['fecha'] . '" target="_blank">aaaaa</a>';
-
-                    echo '</div>';
+                    echo '<tr>
+                            <td>' . $curso['nombre'] . '</td>
+                            <td>' . $curso['fecha'] . '</td>
+                            <td>' . $curso['id_venta'] . '</td>
+                            <td>
+                            <a href="../controller/pdf/ctrlPDF.php?opc=2&id_venta=' . $curso['id_venta'] . '&fecha=' . $curso['fecha'] . '" target="_blank"         
+                           > <img src="../assets/img/pdf.png" alt="PDF Icon" style="width: 40px; height: 40px;">
+                            </a>
+                            </td>
+                          </tr>';
                 }
+        
+                echo '</tbody></table>';  // Cierra el cuerpo de la tabla después del bucle
             } else {
                 echo "El usuario no está definido";
             }
             break;
+        
         case '2': //imprimir pdf
             $id_venta = isset($_GET['id_venta']) && isset($_GET['fecha']) ? $_GET['id_venta'] : NULL;
             $fecha = isset($_GET['fecha']) ? $_GET['fecha'] : NULL;

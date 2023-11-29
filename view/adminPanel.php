@@ -1,3 +1,15 @@
+<?php
+session_start();
+if (isset($_SESSION['id_usuario'])) {
+    //header('location: view/main.php');
+    // You may want to remove this echo statement unless it's for debugging purposes
+    // echo "sesion" . $_SESSION['id_usuario'];
+} else {
+    //echo "Sesión no iniciada";
+    header('location: Login.php');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,9 +32,7 @@
       });
     }
 
-    
-  </script>
-</head>
+ </script>
 
 <body>
 
@@ -57,7 +67,7 @@
         </div>
         <div id="posts">
           <h2 class="header">
-ewqeweq
+            ewqeweq
           </h2>
           <p id="a"></p>
           <form action=""> <input type="button" class="btn btn-danger" value="Comprar" onclick="Correo()">
@@ -140,5 +150,7 @@ ewqeweq
       }
     });
     recargarPagina();
+    cargarBarraDeNav();
+    contador();
   });
 </script>

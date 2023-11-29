@@ -103,7 +103,7 @@ class carrito
         $rs->bindParam(':id_curso', $cursoID, PDO::PARAM_INT);
         $rs->execute();
     }
-    public function comprarCarrito($id_usuario)
+    public function comprarCarrito($id_usuario, $id_paypal)
     {
         // Verificar si hay cursos en el carrito
         $carritoCursos = $this->obtenerCursosCarrito($id_usuario); // Asegúrate de pasar el ID del usuario
@@ -118,10 +118,11 @@ class carrito
             $rs = $this->db->prepare($query);
             $rs->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
             $rs->bindParam(':id_curso', $cursoID, PDO::PARAM_INT);
+           
             if ($rs->execute()) {
                 // La compra se ha registrado correctamente en la base de datos
                 echo "¡Compra registrada en la base de datos!";
-                $this->insertarVenta($id_usuario, $cursoID);
+                $this->insertarVenta($id_usuario, $cursoID, $id_paypal);
                 // header("Location: ../html/compraConcluida.php");
                 // header("Location: ../html/main.php?comprado=1");
                 $this->eliminarCarrito($id_usuario);
@@ -132,12 +133,13 @@ class carrito
         }
     }
 
-    public function insertarVenta($id_usuario, $cursoID)
+    public function insertarVenta($id_usuario, $cursoID,$id_paypal)
     {
-        $query = "INSERT INTO venta (id_usuario, id_lista_cursos, fecha) VALUES (:id_usuario, :id_curso, NOW())";
+        $query = "INSERT INTO venta (id_usuario, id_lista_cursos, fecha,id_paypal) VALUES (:id_usuario, :id_curso, NOW(),:id_paypal)";
         $rs = $this->db->prepare($query);
         $rs->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
         $rs->bindParam(':id_curso', $cursoID, PDO::PARAM_INT);
+        $rs->bindParam(':id_paypal', $id_paypal, PDO::PARAM_STR);
 
         if ($rs->execute()) {
             // La compra se ha registrado correctamente en la base de datos

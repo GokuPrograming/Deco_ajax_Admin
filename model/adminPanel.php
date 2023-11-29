@@ -62,9 +62,11 @@ limit 3; */
     {
         /*select u.correo,u.id_usuario,u.id_rol,r.rol from usuario u
 join rol r on r.id_rol = u.id_rol; */
-        $query = "SELECT u.correo,u.id_usuario,u.id_rol,r.rol from usuario u
-        join rol r on r.id_rol = u.id_rol
-        order by u.id_usuario asc
+        $query = "SELECT u.correo, u.id_usuario, u.id_rol, r.rol
+        from usuario u
+                 join rol r on r.id_rol = u.id_rol
+                 join deco.cliente c on u.id_usuario = c.id_usuario
+        order by u.id_usuario asc;
         ";
 
         $stmt = $this->db->prepare($query);
@@ -121,26 +123,25 @@ order by count(v.id_lista_cursos) desc
         return $cursos;
     }
     public function actualizarRolUsuario($idUsuario, $idRol)
-{
-    try {
-        $query = "UPDATE usuario SET id_rol = :idRol WHERE id_usuario = :idUsuario";
+    {
+        try {
+            $query = "UPDATE usuario SET id_rol = :idRol WHERE id_usuario = :idUsuario";
 
-        $stmt = $this->db->prepare($query);
+            $stmt = $this->db->prepare($query);
 
-        // Asignar valores a los parámetros
-        $stmt->bindParam(':idRol', $idRol, PDO::PARAM_INT);
-        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+            // Asignar valores a los parámetros
+            $stmt->bindParam(':idRol', $idRol, PDO::PARAM_INT);
+            $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
 
-        // Ejecutar la sentencia
-        $stmt->execute();
+            // Ejecutar la sentencia
+            $stmt->execute();
 
-        // Devolver éxito o algún otro indicador si es necesario
-        return true;
-    } catch (PDOException $e) {
-        // Manejar el error de alguna manera (puede ser un log, lanzar una excepción, etc.)
-        // Puedes personalizar esto según tus necesidades
-        return false;
+            // Devolver éxito o algún otro indicador si es necesario
+            return true;
+        } catch (PDOException $e) {
+            // Manejar el error de alguna manera (puede ser un log, lanzar una excepción, etc.)
+            // Puedes personalizar esto según tus necesidades
+            return false;
+        }
     }
-}
-
 }

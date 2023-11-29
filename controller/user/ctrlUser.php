@@ -37,12 +37,13 @@ if (isset($_GET['opc'])) {
     $opc = $_GET['opc'];
     //echo ($opc);
     switch ($opc) {
-        case '1':
+        case '1': //mostrar cursos
             if (isset($_SESSION["id_usuario"])) {
                 $cursos = $mostrar->mostrarTodosLosCursos();
                 echo '<div class="curso-grid">';
                 foreach ($cursos as $curso) {
                     echo '
+                   
                     <div class="curso-card">
                         <img src="../assets/img/' . $curso['imagen'] . '" class="img" loading="lazy">
                         <div class="separador">
@@ -51,9 +52,12 @@ if (isset($_GET['opc'])) {
                         <p class="display-1 pt-2 nombre-pro">' . $curso['titulo'] . '</p>
                         <p class="cat-origen pb-1">Precio=' . $curso['precio'] . '</p>
                         <hr class="m-0 p-0">
-                    </div>';
+                    </div>
+                    ';
                 }
-                echo '</div>';
+                echo '</div>
+
+                ';
             } else {
                 echo "El usuario no está definido";
             }
@@ -88,7 +92,7 @@ if (isset($_GET['opc'])) {
 
         case '3': ///muestra los elementos en la pagina de carrito
             if (isset($_SESSION["id_usuario"])) {
-                echo 'Sesión de usuario ID=' . $_SESSION["id_usuario"];
+                //   echo 'Sesión de usuario ID=' . $_SESSION["id_usuario"];
 
                 // Crear una instancia de la clase 'carrito'
                 $carrito = new carrito();
@@ -100,7 +104,7 @@ if (isset($_GET['opc'])) {
                     foreach ($cursosEnCarrito as $curso) {
 
                         echo '
-                      
+
                                 <table class="container1" id="mostrarCarro">
                                 <tr>
                                     <td>
@@ -115,9 +119,11 @@ if (isset($_GET['opc'])) {
                                 </table>';
                     } ///SECCION DE PAGO 
                     echo ' <p>TOTAL A PAGAR:' . $total . '</p>';
-                    echo '<input type="button" class="btn btn-danger" value="Comprar" onclick="comprarCarrito()">';
+                    echo ' <div id="paypal-button-container"></div>';
+
+                    //  echo '<input type="button" class="btn btn-danger" value="Comprar" onclick="comprarCarrito()">';
                 } else {
-                    echo "El carrito está vacío."; 
+                    echo "El carrito está vacío.";
                 }
             } else {
                 echo "El usuario no está definido";
@@ -133,8 +139,31 @@ if (isset($_GET['opc'])) {
                 echo "El usuario no está definido";
             }
             break;
+
+
+
+        case '12': ///parametros para paypal|
+            $carrito = new Carrito(); // Asegúrate de que la clase Carrito esté definida
+            $idUser = $_SESSION["id_usuario"];
+            $productos = array();  // Un arreglo para almacenar la información de los productos
+            $total = $carrito->Total_pagar($_SESSION["id_usuario"]);
+            $carritoPaypal = $carrito->obtenerCursosCarrito($idUser);
+            foreach ($carritoPaypal as $curso) {
+                $productos[] = array(
+                    'nombre' => $curso['titulo'],  // Ajusta esto según la estructura de tu objeto curso
+                    'precio' => $curso['precio']    // Ajusta esto según la estructura de tu objeto curso
+                );
+            }
+            // Imprime un único JSON que contiene tanto el total como la información de los productos
+            echo json_encode(array('total' => $total, 'productos' => $productos));
+            break;
+
+
+
+
         case '5': ///comprarCArro
             if (isset($_SESSION["id_usuario"])) {
+                $id = $_POST['id'];
                 $carrito = new Carrito(); // Asegúrate de que la clase Carrito esté definida
                 $idUser = $_SESSION["id_usuario"];
                 $carritoTicket = $carrito->obtenerCursosCarrito($idUser);
@@ -153,6 +182,7 @@ if (isset($_GET['opc'])) {
 
                 // Agrega el total de la compra al final del ticket
                 $ticket .= '<p class="total" style="font-size: 18px; font-weight: bold; text-align: right;">Total:$ ' . $total . '.00</p>';
+                $ticket .= '<p class="cat-origen pb-1" style="font-size: 16px; color: #555;">ruta de pago: ' . $id . '</p>';
                 $ticket .= '</div>';
 
                 // Imprime la información para verificar si se está generando correctamente
@@ -161,8 +191,8 @@ if (isset($_GET['opc'])) {
 
                 $correo = new MailerService();
                 $correo->sendMailTicket($ultimoUsuario, $ticket);
-                $carrito->comprarCarrito($idUser);
-                echo "compra exitosa";
+                $carrito->comprarCarrito($idUser, $id);
+                echo "id_deComrar" . $id;
                 break;
             }
         case '6': //contador del carrito
@@ -172,7 +202,7 @@ if (isset($_GET['opc'])) {
 
         case '7':
             if ($_SESSION['id_rol'] == 1) {
-                echo 'id_rol=' . $_SESSION['id_rol'];
+                // echo 'id_rol=' . $_SESSION['id_rol'];
                 echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <img src="../assets/img/OIG.jpeg" alt="Logo" width="80" height="80" class="d-inline-block align-top imagen-redondeada">
                 <a class="navbar-brand" href="#"><img height="100" src="/HTML/Carpeta2/assets/imagenes/logo.png" alt=""></a>
@@ -193,7 +223,7 @@ if (isset($_GET['opc'])) {
                     </form>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="../view/a.php"><img src="../assets/img/hombre.png" alt="" height="30"></a>
+                            <a class="nav-link" href="../view/a.php"><img src="../assets/img/blogger.png" alt="" height="30"></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="SubirVideo.html"><img src="../assets/img/subir.png" alt="subir" height="30px"></a>
@@ -223,7 +253,7 @@ if (isset($_GET['opc'])) {
                 </div>
             </nav>';
             } else if ($_SESSION['id_rol'] == 2) {
-                echo $_SESSION['id_rol']; ///trer la barra de navegacion
+                // echo $_SESSION['id_rol']; ///trer la barra de navegacion
                 echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <img src="../assets/img/OIG.jpeg" alt="Logo" width="80" height="80" class="d-inline-block align-top imagen-redondeada">
                 <a class="navbar-brand" href="#"><img height="100" src="/HTML/Carpeta2/assets/imagenes/logo.png" alt=""></a>
@@ -233,7 +263,7 @@ if (isset($_GET['opc'])) {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#"><img src="../assets/img/work-from-home.png" alt="" height="30">
+                            <a class="nav-link" href="main.php"><img src="../assets/img/work-from-home.png" alt="" height="30">
                                 Inicio <span class="sr-only">(current)</span></a>
                         </li>
     
@@ -243,15 +273,11 @@ if (isset($_GET['opc'])) {
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit"> <img src="../assets/img/www.png" alt="" height="30"></button>
                     </form>
                     <ul class="navbar-nav ml-auto">
+                   
                         <li class="nav-item">
-                            <a class="nav-link" href="../html/p2.php"><img src="../assets/img/hombre.png" alt="" height="30"></a>
+                            <a class="nav-link" href="../view/historialCompras.php"><img src="../assets/img/historial-de-pedidos.png" alt="subir" height="30px"><small>Historial</small></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../view/historialCompras.php"><img src="../assets/img/subir.png" alt="subir" height="30px"></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../html/configuracion.html"><img src="../assets/img/configuraciones.png" alt="" height="30"></a>
-                        </li>
+                     
                         <li class="nav-item">
     
                             <!-- <a class="nav-link" href="carrito.php" id="contador"><img src="../assets/img/work-from-home.png" alt=""
@@ -419,25 +445,40 @@ if (isset($_GET['opc'])) {
 
 
 
-        case '10': ///mostrar historial de
-            if (isset($_SESSION["id_usuario"])) {
-                $venta = $mostrarVenta->MostrarCompras($_SESSION["id_usuario"]);
-                echo '<div class="curso-grid">';
-                foreach ($venta as $curso) {
-                    echo '
-                    <div class="curso-card">
-                        <p class="display-1 pt-2 nombre-pro">compra del usuario= ' . $curso['nombre'] . '</p>
-                        <p class="cat-origen pb-1">compra del dia=' . $curso['fecha'] . '</p>
-                        <p class="cat-origen pb-1">idventa=' . $curso['id_venta'] . '</p>
-                        <input type="button" class="btn btn-danger" value="imprimir" onclick="imprimir()">
-                        <a href="../controller/user/ctrlUser.php?opc=9&id_venta=' . $curso['id_venta'] . '&fecha=' . $curso['fecha'] . '" target="_blank">aaaaa</a>
-                   </div>';
+            case '10':
+                if (isset($_SESSION["id_usuario"])) {
+                    $venta = $mostrarVenta->MostrarCompras($_SESSION["id_usuario"]);
+                   
+                    foreach ($venta as $curso) {
+                        echo '
+                        <table>
+                        <thead>
+                          <tr>
+                            <th>usuario</th>
+                            <th>fecha</th>
+                            <th>Folio</th>
+                            <th>PDF</th>
+    
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>' . $curso['nombre'] . '</td>
+                            <td>' . $curso['fecha'] . '</td>
+                            <td>' . $curso['id_venta'] . '</td>
+                            <td><a href="../controller/user/ctrlUser.php?opc=9&id_venta=' . $curso['id_venta'] . '&fecha=' . $curso['fecha'] . '" target="_blank"></a></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                        ';
+                    }
+  
+                  
+                } else {
+                    echo "El usuario no está definido";
                 }
-                echo '</div>';
-            } else {
-                echo "El usuario no está definido";
-            }
-            exit;
+                exit;
+            
 
         case '11':
             $cerrarSesion->logoutUserById($_SESSION['id_usuario']);

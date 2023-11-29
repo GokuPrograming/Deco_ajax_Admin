@@ -11,7 +11,7 @@ class historialCompras
     }
     public function MostrarCompras($user_id)
     {
-        $query = "SELECT id_venta,nombre,primer_apellido,segundo_apellido,fecha from cliente c
+        $query = "SELECT id_venta,nombre,primer_apellido,segundo_apellido,fecha,v.id_paypal from cliente c
         join deco.usuario u on u.id_usuario = c.id_usuario
         join deco.venta v on u.id_usuario = v.id_usuario
         WHERE c.id_usuario = :user_id
@@ -31,9 +31,13 @@ class historialCompras
     }
     public function MostrarICompras($user_id, $fecha)
     {
-        $query = " SELECT id_venta,nombre,primer_apellido,segundo_apellido,fecha from cliente c
-        join deco.usuario u on u.id_usuario = c.id_usuario
-        join deco.venta v on u.id_usuario = v.id_usuario
+        $query = "
+        SELECT titulo,precio,id_venta, nombre, primer_apellido, segundo_apellido, fecha, v.id_paypal
+        from cliente c
+                 join deco.usuario u on u.id_usuario = c.id_usuario
+                 join deco.venta v on u.id_usuario = v.id_usuario
+                 join deco.lista_curso lc on lc.id_lista_cursos = v.id_lista_cursos
+       
         WHERE c.id_usuario = :user_id 
         and fecha =:fecha
         order by fecha desc

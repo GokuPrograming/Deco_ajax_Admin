@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recibo de Compra</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .recibo {
+            max-width: 400px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .titulo {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .detalles {
+            margin-bottom: 20px;
+        }
+
+        .detalle {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .total {
+            text-align: right;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="recibo">
+        <div class="titulo">Recibo de Compra</div>
+
+        <div class="detalles">
+            <div class="detalle">
+                <div>Producto 1</div>
+                <div>$50.00</div>
+            </div>
+            <div class="detalle">
+                <div>Producto 2</div>
+                <div>$30.00</div>
+            </div>
+            <!-- Puedes agregar más líneas de detalles según sea necesario -->
+        </div>
+
+        <div class="total">Total: $80.00</div>
+
+        <p>Gracias por tu compra en nuestra tienda. Esperamos verte de nuevo pronto.</p>
+    </div>
+
+</body>
+
+</html>

@@ -21,15 +21,27 @@
 
         nav {
             background-color: #333;
-            padding: 10px;
             color: white;
             text-align: center;
+            margin-top: 10px;
+            border: 80px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav li {
+            margin-right: 20px;
         }
 
         nav a {
             color: white;
             text-decoration: none;
-            margin-right: 20px;
         }
 
         nav a:hover {
@@ -40,7 +52,8 @@
             background-color: #fff;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 100px 100px 100px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
         }
 
         label {
@@ -77,8 +90,14 @@
 </head>
 
 <body>
+    <nav>
+        <ul>
+            <li><a href="../view/adminPanel.php">PANEL ADMINISTRATIVO</a></li>
 
-
+            <li><a href="../view/main.php">INICIO</a></li>
+            <!-- Agrega más elementos de lista según sea necesario -->
+        </ul>
+    </nav>
     <form id="fechaForm">
         <label for="fechaInicio">Fecha Inicio:</label>
         <input type="date" id="fechaInicio" name="fechaInicio" required>
