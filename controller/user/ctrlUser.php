@@ -93,7 +93,6 @@ if (isset($_GET['opc'])) {
         case '3': ///muestra los elementos en la pagina de carrito
             if (isset($_SESSION["id_usuario"])) {
                 //   echo 'Sesión de usuario ID=' . $_SESSION["id_usuario"];
-
                 // Crear una instancia de la clase 'carrito'
                 $carrito = new carrito();
                 $total = $carrito->Total_pagar($_SESSION["id_usuario"]);
@@ -104,7 +103,6 @@ if (isset($_GET['opc'])) {
                     foreach ($cursosEnCarrito as $curso) {
 
                         echo '
-
                                 <table class="container1" id="mostrarCarro">
                                 <tr>
                                     <td>
@@ -222,12 +220,13 @@ if (isset($_GET['opc'])) {
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit"> <img src="../assets/img/www.png" alt="" height="30"></button>
                     </form>
                     <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                    <a class="nav-link" href="../view/historialCompras.php"><img src="../assets/img/historial-de-pedidos.png" alt="subir" height="30px"><small>Historial</small></a>
+                </li>
                         <li class="nav-item">
                             <a class="nav-link" href="../view/a.php"><img src="../assets/img/blogger.png" alt="" height="30"></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="SubirVideo.html"><img src="../assets/img/subir.png" alt="subir" height="30px"></a>
-                        </li>
+                       
                         <li class="nav-item">
                             <a class="nav-link" href="../html/configuracion.html"><img src="../assets/img/configuraciones.png" alt="" height="30"></a>
                         </li>
@@ -480,7 +479,7 @@ if (isset($_GET['opc'])) {
                 exit;
             
 
-        case '11':
+        case '11':// cerrar sesion 
             $cerrarSesion->logoutUserById($_SESSION['id_usuario']);
             header('Location: ../../index.php');
             break;

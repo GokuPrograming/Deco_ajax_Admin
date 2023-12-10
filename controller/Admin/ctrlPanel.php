@@ -41,7 +41,7 @@ if (isset($_GET['opc'])) {
                               <td>' . $contador . '</td>
                               <td>' . $usuarioTOP['cantidad'] . '</td>
                               <td>' . $usuarioTOP['correo'] . '</td>
-                             <td> <input type="button" class="btn btn-danger" value="GRACIAS" onclick="Correo(\'' . $usuarioTOP['correo'] . '\', \'' . $contador . '\')">
+                             <td> <input type="button" class="btn btn-danger" value="Comprar" onclick="Correo(\'' . $usuarioTOP['correo'] . '\', \'' . $contador . '\')">
                              </td>
                           </tr>';
                     $contador++;

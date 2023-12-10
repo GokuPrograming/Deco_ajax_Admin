@@ -73,13 +73,12 @@ if (isset($_SESSION['id_usuario'])) {
             recargarPagina();
 
 
-        } 
+        }
     </script>
 
 </head>
 
 <body>
-
 
     <div id="currencyCode"></div>
     <header class="cheader" id="a">
@@ -92,7 +91,6 @@ if (isset($_SESSION['id_usuario'])) {
         <div class="container1">
             <table id="mostrarCarro"></table>
         </div>
-
         <div class="container1">
 
         </div>
@@ -124,14 +122,14 @@ if (isset($_SESSION['id_usuario'])) {
         });
     }
 
+    ///metodo de pago de paypal
 
     var total; // Variable global para almacenar el valor total
     var titulo;
     var currencyCode;
-
     var id;
 
-    function recargarPaginaT() {
+    function recargarPaginaT() {///me manda el total de la cuenta en esta peticion 
         $.ajax({
             type: "GET",
             url: "../controller/user/ctrlUser.php?opc=12",
@@ -146,20 +144,10 @@ if (isset($_SESSION['id_usuario'])) {
                         total = respuestaJSON.total;
                         /// esto lo puedes ignorar ya que no es iportante, el chiste es que pague XD
                         //recibe el json de los parametros del  php
-                        productos = respuestaJSON.productos;
-                        for (var i = 0; i < productos.length; i++) {
-                            var nombre = productos[i].nombre;
-                            var precio = productos[i].precio;
-                            console.log("nombre:", nombre);
-                            console.log("precio:", precio);
-                        }
                         // Hacer algo con el valor total
                         console.log("Total:", total);
-
-
-
                         // Llama a la función de PayPal después de obtener el valor
-                        inicializarPayPal(total);
+                       inicializarPayPal(total);
                     } else {
                         console.error('La respuesta no contiene la clave "total".');
                     }
@@ -181,8 +169,7 @@ if (isset($_SESSION['id_usuario'])) {
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: total
-                                .toString() //el valro total es el valor que aparecera al momento de pagar
+                            value: total.toString() //el valro total es el valor que aparecera al momento de pagar
                         }
                     }]
                 });
@@ -203,7 +190,6 @@ if (isset($_SESSION['id_usuario'])) {
                     //comprarCarrito();
                     console.log("id:", id);
                     ComprarConPaypal(id);
-
                 });
 
             },
@@ -220,7 +206,7 @@ if (isset($_SESSION['id_usuario'])) {
         Swal.fire({
             title: 'Espere por favor...',
             allowOutsideClick: false,
-        showConfirmButton: false, // Ocultar el botón de confirmación
+            showConfirmButton: false, // Ocultar el botón de confirmación
             onBeforeOpen: () => {
                 Swal.showLoading();
             }
